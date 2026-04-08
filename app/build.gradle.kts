@@ -9,6 +9,11 @@ android {
             minorApiLevel = 1
         }
     }
+    //关闭模块化，回到传统模式,统一 Java/Kotlin 编译版本为 17
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
 
     defaultConfig {
         applicationId = "com.example.emotiondiarysystem"

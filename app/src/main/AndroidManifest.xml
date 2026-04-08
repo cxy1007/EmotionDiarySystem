@@ -12,6 +12,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EmotionDiarySystem">
         <activity
+            android:name=".ui.user.UserCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.EmotionStatActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
