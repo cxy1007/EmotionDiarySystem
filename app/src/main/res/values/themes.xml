@@ -1,9 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.EmotionDiarySystem" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!--
+      全局应用主题（情感日记风格，柔和配色）
+      说明：
+      1. 使用 Material3 DayNight 体系，便于后续扩展
+      2. 颜色采用低饱和度，减少视觉刺激
+    -->
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- 品牌主色：柔和蓝紫 -->
+        <item name="colorPrimary">#7A84C2</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- 次级色：柔和青绿 -->
+        <item name="colorSecondary">#76B7A8</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- 背景与表面 -->
+        <item name="android:colorBackground">#F7F8FC</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#2F3441</item>
+
+        <!-- 状态栏与导航栏（浅色背景） -->
+        <item name="android:statusBarColor">#F7F8FC</item>
+        <item name="android:navigationBarColor">#F7F8FC</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
-    <style name="Theme.EmotionDiarySystem" parent="Base.Theme.EmotionDiarySystem" />
+    <!-- 标题文本样式（页面主标题） -->
+    <style name="TextStyle.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">#2B3140</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
+    <!-- 正文文本样式（普通内容/日记内容） -->
+    <style name="TextStyle.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">#3E4556</item>
+        <item name="android:lineSpacingExtra">4dp</item>
+    </style>
+
+    <!-- 按钮样式（主操作按钮） -->
+    <style name="WidgetStyle.PrimaryButton" parent="Widget.Material3.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">#7A84C2</item>
+    </style>
+
+    <!-- 输入框样式（文本输入场景） -->
+    <style name="WidgetStyle.InputField" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#A6AECC</item>
+        <item name="hintTextColor">#8A90A3</item>
+        <item name="android:textColorHint">#8A90A3</item>
+    </style>
+
+    <!-- 输入框内部文本样式（配合 EditText/TextInputEditText） -->
+    <style name="TextStyle.InputText" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">#2F3441</item>
+        <item name="android:textColorHint">#8A90A3</item>
+    </style>
+
 </resources>
