@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9FAFB"
+    android:padding="16dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="背景自定义"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#2D3748"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 背景选项网格：用GridLayout实现静态3列布局，替代GridView -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:verticalSpacing="12dp"
+        android:horizontalSpacing="12dp"
+        android:padding="8dp">
+
+        <!-- 背景项1 -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:background="#E3F2FD"
+            android:scaleType="centerCrop"/>
+
+        <!-- 背景项2 -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:background="#FCE4EC"
+            android:scaleType="centerCrop"/>
+
+        <!-- 背景项3 -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:background="#E8F5E8"
+            android:scaleType="centerCrop"/>
+
+        <!-- 背景项4 -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:background="#FFF3E0"
+            android:scaleType="centerCrop"/>
+
+        <!-- 背景项5 -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:background="#F1F1F1"
+            android:scaleType="centerCrop"/>
+
+        <!-- 背景项6 -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_columnWeight="1"
+            android:background="#000000"
+            android:scaleType="centerCrop"/>
+    </GridLayout>
+
+    <!-- 上传按钮 -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="从相册选择背景"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#2D3748"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>

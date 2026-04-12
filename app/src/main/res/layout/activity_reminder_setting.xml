@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F9FAFB"
+    android:padding="16dp">
+
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="个性化提醒"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#2D3748"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 提醒开关 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开启日记提醒"
+            android:textSize="16sp"
+            android:textColor="#2D3748"
+            android:layout_centerVertical="true"/>
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:checked="true"/>
+    </RelativeLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E8F0"/>
+
+    <!-- 提醒时间 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提醒时间"
+            android:textSize="16sp"
+            android:textColor="#2D3748"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="21:00"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="#718096"/>
+    </RelativeLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E8F0"/>
+
+    <!-- 重复周期 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="重复周期"
+            android:textSize="16sp"
+            android:textColor="#2D3748"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="每天"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="#718096"/>
+    </RelativeLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E8F0"/>
+
+    <!-- 提醒铃声 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提醒铃声"
+            android:textSize="16sp"
+            android:textColor="#2D3748"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认铃声"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:textColor="#718096"/>
+    </RelativeLayout>
+</LinearLayout>
