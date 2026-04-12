@@ -22,3 +22,4 @@ public class DiaryListActivity extends AppCompatActivity {
         });
     }
 }
+
