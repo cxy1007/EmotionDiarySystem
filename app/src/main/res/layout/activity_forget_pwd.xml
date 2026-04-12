@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="用户注册"
+        android:text="忘记密码"
         android:textSize="24sp"
         android:textColor="#333333"
         android:gravity="center"
@@ -61,11 +61,11 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="设置密码"
+        android:hint="新密码"
         android:layout_marginTop="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_pwd"
+            android:id="@+id/et_new_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"/>
@@ -74,7 +74,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="确认密码"
+        android:hint="确认新密码"
         android:layout_marginTop="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -85,10 +85,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_reset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注册"
+        android:text="提交重置"
         android:backgroundTint="#409EFF"
         android:textColor="#FFFFFF"
         android:layout_marginTop="24dp"

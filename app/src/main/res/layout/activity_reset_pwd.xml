@@ -9,63 +9,20 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="用户注册"
+        android:text="修改密码"
         android:textSize="24sp"
         android:textColor="#333333"
         android:gravity="center"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:layout_marginBottom="32dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="手机号">
+        android:hint="旧密码">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="phone"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="验证码">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_get_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="获取验证码"
-            android:backgroundTint="#409EFF"
-            android:textColor="#FFFFFF"
-            android:layout_marginStart="12dp"
-            android:layout_gravity="center_vertical"/>
-    </LinearLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="设置密码"
-        android:layout_marginTop="12dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_pwd"
+            android:id="@+id/et_old_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"/>
@@ -74,7 +31,20 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="确认密码"
+        android:hint="新密码"
+        android:layout_marginTop="12dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_new_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="确认新密码"
         android:layout_marginTop="12dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -85,10 +55,10 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注册"
+        android:text="确认修改"
         android:backgroundTint="#409EFF"
         android:textColor="#FFFFFF"
         android:layout_marginTop="24dp"
