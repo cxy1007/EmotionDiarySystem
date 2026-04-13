@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".db.DiaryDataManageActivity">
+    tools:context=".ui.diary.DiaryDataManageActivity">
 
     <!-- 顶部栏 -->
     <LinearLayout
@@ -460,7 +460,7 @@
                             android:paddingTop="4dp"
                             android:paddingBottom="4dp"
                             android:textColor="#191A1C"
-                            android:background="@drawable/btn_orange"
+
                             android:backgroundTint="@null"
                             android:stateListAnimator="@null"/>
                     </LinearLayout>
@@ -509,7 +509,7 @@
                             android:paddingTop="4dp"
                             android:paddingBottom="4dp"
                             android:textColor="#191A1C"
-                            android:background="@drawable/btn_orange"
+
                             android:stateListAnimator="@null"/>
                     </LinearLayout>
                 </LinearLayout>

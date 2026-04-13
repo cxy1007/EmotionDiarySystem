@@ -1,4 +1,4 @@
-package com.example.emotiondiarysystem.db;
+package com.example.emotiondiarysystem.ui.diary;
 
 import android.os.Bundle;
 
