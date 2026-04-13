@@ -1,10 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<!-- 垂直布局，居中显示，符合常规登录页设计 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- 用户名输入框，ID对应Java代码 -->
+    <EditText
+        android:id="@+id/et_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入用户名"
+        android:inputType="textPersonName"
+        android:maxLines="1"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/et_bg"
+        android:padding="12dp"/>
+
+    <!-- 密码输入框，ID对应Java代码 -->
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:maxLines="1"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/et_bg"
+        android:padding="12dp"/>
+
+    <!-- 登录按钮，ID对应Java代码 -->
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="登录"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/teal_700"
+        android:layout_marginBottom="12dp"
+        android:padding="12dp"/>
+
+    <!-- 注册按钮，ID对应Java代码 -->
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@color/teal_200"
+        android:padding="12dp"/>
+
+</LinearLayout>
