@@ -1,4 +1,4 @@
-package com.example.emotiondiarysystem.ui;
+package com.example.emotiondiarysystem.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;

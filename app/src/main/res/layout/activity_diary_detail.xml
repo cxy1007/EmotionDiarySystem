@@ -1,52 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="#F9FAFB">
+    tools:context=".ui.diary.DiaryDetailActivity">
 
-    <!-- 日期 -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2026年04月11日 星期五"
-        android:textSize="16sp"
-        android:textColor="#718096"/>
-
-    <!-- 标题 -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="春日踏青记录"
-        android:textSize="26sp"
-        android:textColor="#2D3748"
-        android:textStyle="bold"
-        android:layout_marginTop="12dp"/>
-
-    <!-- 心情标签 -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="心情：开心 😊"
-        android:textSize="16sp"
-        android:textColor="#718096"
-        android:layout_marginTop="6dp"/>
-
-    <!-- 分割线 -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#E2E8F0"
-        android:layout_marginTop="12dp"/>
-
-    <!-- 日记内容 -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="今天和朋友去郊外踏青，天气特别好，阳光明媚，花开得也很漂亮。\n\n拍了很多好看的照片，还吃了好吃的野餐，一整天都很开心！\n\n回来之后整理了照片，记录下这美好的一天~"
-        android:textSize="18sp"
-        android:textColor="#2D3748"
-        android:lineSpacingExtra="6dp"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,17 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- ✅ 唯一正确的启动页（情感日记启动页）-->
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.setting.ThemeSwitchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryListActivity"
+            android:exported="false" /> <!-- ✅ 唯一正确的启动页（情感日记启动页） -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.user.UserCenterActivity"
             android:exported="false" />
@@ -32,13 +39,7 @@
             android:name=".ui.emotion.EmotionStatActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.diary.DiaryDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.diary.DiaryEditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.diary.DiaryListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.RegisterActivity"
@@ -49,11 +50,9 @@
         <activity
             android:name=".ui.diary.DiaryHomeActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>
