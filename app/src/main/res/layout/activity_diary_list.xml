@@ -1,10 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.diary.DiaryListActivity">
+    android:background="#F9FAFB"
+    android:padding="16dp">
+
+    <!-- 返回按钮 -->
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@android:drawable/ic_menu_revert"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <!-- 页面标题 -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我的日记"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:textColor="#2D3748"
+        android:layout_marginLeft="12dp"
+        app:layout_constraintTop_toTopOf="@id/iv_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"
+        app:layout_constraintLeft_toRightOf="@id/iv_back"/>
+
+    <!-- 写日记按钮 -->
+    <TextView
+        android:id="@+id/tv_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+ 写日记"
+        android:textSize="16sp"
+        android:textColor="#2D3748"
+        android:background="#E2E8F0"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:radius="12dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_back"
+        app:layout_constraintBottom_toBottomOf="@id/iv_back"/>
+
+    <!-- 分割线 -->
+    <View
+        android:id="@+id/v_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E8F0"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_back"/>
+
+    <!-- 日记列表（不新建item，直接用TextView实现） -->
+    <LinearLayout
+        android:id="@+id/demo_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/v_divider">
+
+        <!-- 日记条目1 -->
+        <TextView
+            android:id="@+id/item1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:text="2026-04-13 今天完成了日记列表页UI开发，很有成就感！"
+            android:textColor="#2D3748"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 日记条目2 -->
+        <TextView
+            android:id="@+id/item2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:text="2026-04-12 学习Android RecyclerView使用，收获满满"
+            android:textColor="#2D3748"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 日记条目3（可直接复制新增） -->
+        <TextView
+            android:id="@+id/item3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:padding="16dp"
+            android:text="2026-04-11 小组开会讨论项目进度，明确分工"
+            android:textColor="#2D3748"
+            android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
