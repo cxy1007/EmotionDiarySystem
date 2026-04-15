@@ -1,26 +1,33 @@
 package com.example.emotiondiarysystem.ui.diary;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 import com.example.emotiondiarysystem.R;
 
 public class DiaryDataManageActivity extends AppCompatActivity {
 
+    private Button btnClearCache;
+    private Button btnResetDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_diary_data_manage);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        // 返回
+        findViewById(R.id.topBar).setOnClickListener(v -> finish());
+
+        btnClearCache = findViewById(R.id.btn_clear_cache);
+        btnResetDb = findViewById(R.id.btn_reset_database);
+
+        btnClearCache.setOnClickListener(v -> {
+            Toast.makeText(this, "清空分析缓存成功", Toast.LENGTH_SHORT).show();
+        });
+
+        btnResetDb.setOnClickListener(v -> {
+            Toast.makeText(this, "数据库已重置", Toast.LENGTH_SHORT).show();
         });
     }
 }

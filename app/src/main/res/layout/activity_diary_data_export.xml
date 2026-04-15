@@ -390,7 +390,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="#E2E8F0"
-                        android:marginStart="12dp" />
+                        android:layout_marginStart="12dp" />
 
                     <!-- 情感分析结果 -->
                     <LinearLayout
@@ -421,7 +421,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="#E2E8F0"
-                        android:marginStart="12dp" />
+                        android:layout_marginStart="12dp" />
 
                     <!-- 标签信息 -->
                     <LinearLayout
@@ -452,7 +452,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="#E2E8F0"
-                        android:marginStart="12dp" />
+                        android:layout_marginStart="12dp" />
 
                     <!-- 个性化推荐建议 -->
                     <LinearLayout
