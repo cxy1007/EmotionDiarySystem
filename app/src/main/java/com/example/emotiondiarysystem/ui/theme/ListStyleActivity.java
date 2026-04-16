@@ -1,4 +1,4 @@
-package com.example.emotiondiarysystem.db;
+package com.example.emotiondiarysystem.ui.theme;
 
 import android.os.Bundle;
 
@@ -10,13 +10,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.emotiondiarysystem.R;
 
-public class DiaryLogRecordActivity extends AppCompatActivity {
+public class ListStyleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_diary_log_record);
+        setContentView(R.layout.activity_list_style);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

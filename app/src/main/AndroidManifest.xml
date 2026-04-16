@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.setting.ThemeSwitchActivity"
+            android:name=".ui.theme.ThemeSwitchActivity"
             android:exported="false" />
         <activity
             android:name=".ui.diary.DiaryDetailActivity"
@@ -51,7 +51,76 @@
             android:name=".ui.diary.DiaryHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.about.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.personal.PersonalCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.UserInfoEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiarySearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryCalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryRecycleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.audio.AudioInputActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.image.ImagePreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.share.DiaryShareActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.WeekEmotionChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.MonthEmotionTrendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.StatOverviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.recommend.MoodQuoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.recommend.EmotionAdviceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.theme.FontSizeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.theme.BgCustomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.theme.ListStyleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.reminder.ReminderSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.MoodCheckinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.recommend.RecommendActivity"
             android:exported="false" />
     </application>
 

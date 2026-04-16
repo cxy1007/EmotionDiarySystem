@@ -1,4 +1,4 @@
-package com.example.emotiondiarysystem.ui.diary;
+package com.example.emotiondiarysystem.ui.emotion;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,22 +14,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.emotiondiarysystem.R;
 import com.example.emotiondiarysystem.db.DBHelper;
-import com.example.emotiondiarysystem.utils.SpUtil;
-import com.example.emotiondiarysystem.databinding.ActivityDiaryEditBinding;
+import com.example.emotiondiarysystem.databinding.ActivityMoodCheckinBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DiaryEditActivity extends AppCompatActivity {
+public class MoodCheckinActivity extends AppCompatActivity {
 
-    private ActivityDiaryEditBinding binding;
+    private ActivityMoodCheckinBinding binding;
     private DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityDiaryEditBinding.inflate(getLayoutInflater());
+        binding = ActivityMoodCheckinBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -43,43 +42,49 @@ public class DiaryEditActivity extends AppCompatActivity {
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveDiary();
+                saveMoodCheckin();
             }
         });
     }
 
-    private void saveDiary() {
-        if (binding == null || binding.etContent == null) {
+    private void saveMoodCheckin() {
+        if (binding == null || binding.etNote == null) {
             Toast.makeText(this, "页面加载失败", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String content = binding.etContent.getText() != null ? binding.etContent.getText().toString().trim() : "";
-        if (content.isEmpty()) {
-            Toast.makeText(this, "日记内容不能为空", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        int moodScore = 5; // 假设默认分数为5
+        String moodTag = "开心"; // 假设默认标签为开心
+        String note = binding.etNote.getText() != null ? binding.etNote.getText().toString().trim() : "";
 
+        SQLiteDatabase db = null;
         try {
-            // 获取当前用户ID
-            int userId = SpUtil.getInt(this, "userId", 1);
-            
             // 保存到数据库
-            long result = dbHelper.addDiary(
-                    userId,
-                    content,
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-                    "一般" // 可以根据实际情况设置
-            );
+            db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("user_id", 1); // 假设当前用户ID为1
+            values.put("mood_score", moodScore);
+            values.put("mood_tag", moodTag);
+            values.put("note", note);
+            values.put("create_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+            long result = db.insert("mood_checkin", null, values);
 
             if (result > 0) {
-                Toast.makeText(this, "日记保存成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "心情打卡保存成功", Toast.LENGTH_SHORT).show();
                 finish();
             } else {
-                Toast.makeText(this, "日记保存失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "心情打卡保存失败", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             Toast.makeText(this, "保存失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            if (db != null) {
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
+            }
         }
     }
 }

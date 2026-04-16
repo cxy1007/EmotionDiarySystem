@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.diary.DiaryEditActivity">
+    tools:context=".ui.emotion.MoodCheckinActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="写日记"
+            app:title="心情打卡"
             app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -48,19 +48,27 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日心情"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp" />
+
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/tilContent"
+                        android:id="@+id/tilNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="写下你的日记..."
+                        android:hint="写下你的心情..."
                         app:boxBackgroundMode="outline">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etContent"
+                            android:id="@+id/etNote"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine"
-                            android:minLines="10" />
+                            android:minLines="5" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton

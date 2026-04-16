@@ -1,3 +1,127 @@
 <resources>
     <string name="app_name">EmotionDiarySystem</string>
+    
+    <string name="about_us">关于我们</string>
+    <string name="about_description">情感日记系统是一款帮助用户记录和管理情感状态的应用程序，提供日记记录、情感分析、数据统计等功能。</string>
+    <string name="contact_us">联系我们</string>
+    
+    <string name="personal_center">个人中心</string>
+    <string name="avatar">头像</string>
+    <string name="username">用户名</string>
+    <string name="edit_profile">编辑资料</string>
+    <string name="settings">设置</string>
+    
+    <string name="forget_password">忘记密码</string>
+    <string name="email">邮箱</string>
+    <string name="verification_code">验证码</string>
+    <string name="send_verification_code">发送验证码</string>
+    <string name="new_password">新密码</string>
+    <string name="reset_password">重置密码</string>
+    
+    <string name="change_password">修改密码</string>
+    <string name="old_password">旧密码</string>
+    <string name="confirm_password">确认密码</string>
+    
+    <string name="edit_user_info">编辑用户信息</string>
+    <string name="phone">手机号</string>
+    <string name="change_avatar">更换头像</string>
+    <string name="save">保存</string>
+    
+    <string name="diary_search">日记搜索</string>
+    <string name="search_diary">搜索日记</string>
+    <string name="all">全部</string>
+    <string name="title">标题</string>
+    <string name="content">内容</string>
+    <string name="date">日期</string>
+    
+    <string name="diary_category">日记分类</string>
+    
+    <string name="diary_calendar">日历视图</string>
+    <string name="diary_of_the_day">当日日记</string>
+    
+    <string name="diary_recycle">回收站</string>
+    <string name="select_all">全选</string>
+    <string name="restore">恢复</string>
+    <string name="delete_forever">永久删除</string>
+    
+    <string name="audio_input">语音输入</string>
+    <string name="ready_to_record">准备录音</string>
+    <string name="play">播放</string>
+    <string name="stop">停止</string>
+    
+    <string name="image_preview">图片预览</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+    <string name="share">分享</string>
+    
+    <string name="diary_share">日记分享</string>
+    <string name="share_to">分享到</string>
+    <string name="wechat">微信</string>
+    <string name="wechat_moments">朋友圈</string>
+    <string name="qq">QQ</string>
+    <string name="weibo">微博</string>
+    <string name="share_options">分享选项</string>
+    <string name="include_images">包含图片</string>
+    <string name="include_audio">包含语音</string>
+    <string name="include_emotion">包含情感</string>
+    
+    <string name="week_emotion_chart">周情感图表</string>
+    <string name="emotion_distribution">情感分布</string>
+    <string name="chart_placeholder">图表占位符</string>
+    <string name="emotion_summary">情感总结</string>
+    <string name="week_emotion_summary_placeholder">本周情感总结占位符</string>
+    
+    <string name="month_emotion_trend">月情感趋势</string>
+    <string name="emotion_trend">情感趋势</string>
+    <string name="trend_analysis">趋势分析</string>
+    <string name="month_trend_analysis_placeholder">月度趋势分析占位符</string>
+    
+    <string name="stat_overview">统计概览</string>
+    <string name="total_diaries">总日记数</string>
+    <string name="total_days">总天数</string>
+    <string name="avg_emotion">平均情感</string>
+    <string name="streak_days">连续天数</string>
+    <string name="recent_emotion">最近情感</string>
+    <string name="recent_emotion_placeholder">最近情感占位符</string>
+    
+    <string name="mood_quote">心情语录</string>
+    <string name="quote_placeholder">语录占位符</string>
+    <string name="author_placeholder">作者占位符</string>
+    <string name="previous">上一条</string>
+    <string name="next">下一条</string>
+    
+    <string name="emotion_advice">情感建议</string>
+    <string name="current_emotion">当前情感</string>
+    <string name="current_emotion_placeholder">当前情感占位符</string>
+    <string name="advice">建议</string>
+    <string name="advice_placeholder">建议占位符</string>
+    
+    <string name="font_size">字体大小</string>
+    <string name="font_size_setting">字体大小设置</string>
+    <string name="current_font_size">当前字体大小</string>
+    <string name="small">小</string>
+    <string name="medium">中</string>
+    <string name="large">大</string>
+    <string name="apply">应用</string>
+    
+    <string name="bg_custom">背景自定义</string>
+    <string name="preset_backgrounds">预设背景</string>
+    <string name="custom_background">自定义背景</string>
+    <string name="select_image">选择图片</string>
+    
+    <string name="list_style">列表样式</string>
+    <string name="list_style_setting">列表样式设置</string>
+    <string name="card_style">卡片样式</string>
+    <string name="list_style_option">列表样式</string>
+    <string name="grid_style">网格样式</string>
+    
+    <string name="reminder_setting">提醒设置</string>
+    <string name="enable_reminder">启用提醒</string>
+    <string name="reminder_time">提醒时间</string>
+    <string name="reminder_frequency">提醒频率</string>
+    <string name="daily">每日</string>
+    <string name="weekly">每周</string>
+    <string name="monthly">每月</string>
+    <string name="reminder_message">提醒消息</string>
+    <string name="enter_reminder_message">输入提醒消息</string>
 </resources>

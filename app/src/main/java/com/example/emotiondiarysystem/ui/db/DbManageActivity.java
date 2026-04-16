@@ -1,4 +1,4 @@
-package com.example.emotiondiarysystem.ui.diary;
+package com.example.emotiondiarysystem.ui.db;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import com.example.emotiondiarysystem.R;
 
-public class DiaryDataManageActivity extends AppCompatActivity {
+public class DbManageActivity extends AppCompatActivity {
 
     private Button btnClearCache;
     private Button btnResetDb;
@@ -14,7 +14,7 @@ public class DiaryDataManageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary_data_manage);
+        setContentView(R.layout.activity_db_manage);
 
         // 返回
         findViewById(R.id.topBar).setOnClickListener(v -> finish());

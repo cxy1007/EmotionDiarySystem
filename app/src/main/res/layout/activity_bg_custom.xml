@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.diary.DiaryHomeActivity">
+    tools:context=".ui.theme.BgCustomActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -20,20 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:title="心情日记"
-            app:titleTextColor="@android:color/white">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:minWidth="0dp"
-                android:padding="8dp"
-                app:icon="@drawable/ic_search"
-                app:iconTint="@android:color/white"
-                app:backgroundTint="@android:color/transparent" />
-        </androidx.appcompat.widget.Toolbar>
+            app:title="@string/bg_custom"
+            app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
@@ -48,7 +36,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 日记列表 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,24 +52,71 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="今日日记"
-                        android:textSize="18sp"
+                        android:text="@string/preset_backgrounds"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="16dp" />
 
-                    <LinearLayout
-                        android:id="@+id/diaryListContainer"
+                    <GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" />
+                        android:columnCount="3"
+                        android:rowCount="2">
+
+                        <View
+                            android:id="@+id/viewBg1"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:background="#FFFFFF" />
+
+                        <View
+                            android:id="@+id/viewBg2"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:background="#F5F5F5" />
+
+                        <View
+                            android:id="@+id/viewBg3"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:background="#E8F5E9" />
+
+                        <View
+                            android:id="@+id/viewBg4"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:background="#E3F2FD" />
+
+                        <View
+                            android:id="@+id/viewBg5"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:background="#FFF3E0" />
+
+                        <View
+                            android:id="@+id/viewBg6"
+                            android:layout_width="0dp"
+                            android:layout_height="80dp"
+                            android:layout_columnWeight="1"
+                            android:layout_margin="4dp"
+                            android:background="#F3E5F5" />
+                    </GridLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- 心情统计 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="4dp">
 
@@ -95,30 +129,18 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="心情统计"
-                        android:textSize="18sp"
+                        android:text="@string/custom_background"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSelectImage"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="本周心情指数: 85"
-                        android:textSize="14sp" />
+                        android:text="@string/select_image" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </ScrollView>
-
-    <!-- 浮动添加按钮 -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:contentDescription="添加日记"
-        android:src="@android:drawable/ic_input_add"
-        app:backgroundTint="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

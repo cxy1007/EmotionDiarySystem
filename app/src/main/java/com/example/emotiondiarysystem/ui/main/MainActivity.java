@@ -1,4 +1,4 @@
-package com.example.emotiondiarysystem;
+package com.example.emotiondiarysystem.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
