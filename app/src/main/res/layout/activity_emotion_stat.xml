@@ -1,10 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.emotion.EmotionStatActivity">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#F9FAFB"
+    android:padding="24dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- 标题 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="情感分析结果"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#2D3748"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"/>
+
+    <!-- 卡片 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        android:padding="28dp"
+        android:layout_marginBottom="30dp">
+
+        <!-- 日记内容 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="今天心情非常好，学习很顺利，一切都在变好！"
+            android:textSize="17sp"
+            android:textColor="#2D3748"
+            android:lineSpacingExtra="4dp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- 分割线 -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#E2E8F0"
+            android:layout_marginBottom="20dp"/>
+
+        <!-- 情感类型 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="情感类型：积极"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#2D3748"
+            android:background="#E2E8F0"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- 心情状态 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="心情状态：开心、满足"
+            android:textSize="16sp"
+            android:textColor="#718096"
+            android:gravity="center"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- 建议 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="建议：保持良好心态，继续加油！"
+            android:textSize="16sp"
+            android:textColor="#718096"
+            android:gravity="center"
+            android:lineSpacingExtra="2dp"/>
+
+    </LinearLayout>
+
+    <!-- 返回按钮 -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="返回编辑"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#2D3748"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

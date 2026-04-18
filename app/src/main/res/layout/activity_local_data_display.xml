@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.db.LocalDataDisplayActivity">
+
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="返回" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="本地数据"
+            android:textColor="#2D3748"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginStart="8dp" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_filter_list"
+            android:contentDescription="筛选" />
+    </LinearLayout>
+
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E8F0"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/topBar"/>
+
+    <!-- 搜索栏 -->
+    <LinearLayout
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="#FFFFFF"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/topBar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:background="#F9FAFB"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_search"
+                android:contentDescription="搜索" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="搜索日记内容或标签..."
+                android:textColorHint="#718096"
+                android:textSize="14sp"
+                android:textColor="#2D3748"
+                android:background="@null"
+                android:layout_marginStart="8dp"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:singleLine="true" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 筛选标签栏 -->
+    <HorizontalScrollView
+        android:id="@+id/filterBar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#FFFFFF"
+        android:scrollbars="none"
+        tools:ignore="MissingConstraints"
+        app:layout_constraintTop_toBottomOf="@id/searchBar">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical">
+
+            <!-- 全部 - 选中状态 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="全部 128"
+                android:textColor="#FFFFFF"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:background="#4A8FE7"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="😊 积极"
+                android:textColor="#38A169"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:background="#F0FFF4"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="😐 中性"
+                android:textColor="#718096"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:background="#EDF2F7"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="😢 消极"
+                android:textColor="#E53E3E"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:background="#FFF5F5"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="本月"
+                android:textColor="#718096"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:background="#EDF2F7"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E2E8F0"
+        tools:ignore="MissingConstraints" />
+
+    <!-- 日记列表 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintTop_toBottomOf="@id/filterBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
+
+            <!-- 日期分组 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025年6月"
+                android:textColor="#718096"
+                android:textSize="12sp"
+                android:paddingStart="16dp"
+                android:paddingBottom="6dp" />
+
+            <!-- 日记条目 1 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="今天很充实"
+                            android:textColor="#2D3748"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="积极"
+                            android:textColor="#38A169"
+                            android:textSize="11sp"
+                            android:background="#F0FFF4"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="早上去跑步，感觉整个人都精神多了。下午和朋友喝了咖啡，聊了好多有趣的事情，心情特别好..."
+                        android:textColor="#4A5568"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingMultiplier="1.5"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2025-06-18 08:32"
+                            android:textColor="#718096"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="# 运动"
+                            android:textColor="#4A8FE7"
+                            android:textSize="11sp"
+                            android:background="#EBF4FF"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:layout_marginStart="4dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="# 朋友"
+                            android:textColor="#4A8FE7"
+                            android:textSize="11sp"
+                            android:background="#EBF4FF"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:layout_marginStart="4dp" />
+                    </LinearLayout>
+
+                    <!-- 情感分数条 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="情感值"
+                            android:textColor="#718096"
+                            android:textSize="11sp" />
+
+                        <ProgressBar
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:progress="82"
+                            android:progressTint="#68D391"
+                            android:progressBackgroundTint="#E2E8F0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.82"
+                            android:textColor="#38A169"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 日记条目 2 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="有些疲惫的一天"
+                            android:textColor="#2D3748"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="消极"
+                            android:textColor="#E53E3E"
+                            android:textSize="11sp"
+                            android:background="#FFF5F5"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="连续加班三天了，感觉有点力不从心。晚上回家后什么都不想做，只想躺着..."
+                        android:textColor="#4A5568"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingMultiplier="1.5"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2025-06-17 22:11"
+                            android:textColor="#718096"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="# 工作"
+                            android:textColor="#4A8FE7"
+                            android:textSize="11sp"
+                            android:background="#EBF4FF"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:layout_marginStart="4dp" />
+                    </LinearLayout>
+
+                    <!-- 情感分数条 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="情感值"
+                            android:textColor="#718096"
+                            android:textSize="11sp" />
+
+                        <ProgressBar
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:progress="21"
+                            android:progressTint="#FC8181"
+                            android:progressBackgroundTint="#E2E8F0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-0.54"
+                            android:textColor="#E53E3E"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- 日记条目 3 -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="周末随记"
+                            android:textColor="#2D3748"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="中性"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:background="#EDF2F7"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="今天在家休息，看了一部电影，煮了一顿饭。普通但平静的一天。"
+                        android:textColor="#4A5568"
+                        android:textSize="13sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:lineSpacingMultiplier="1.5"
+                        android:layout_marginBottom="10dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="2025-06-15 19:45"
+                            android:textColor="#718096"
+                            android:textSize="11sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="# 日常"
+                            android:textColor="#4A8FE7"
+                            android:textSize="11sp"
+                            android:background="#EBF4FF"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="2dp"
+                            android:paddingBottom="2dp"
+                            android:layout_marginStart="4dp" />
+                    </LinearLayout>
+
+                    <!-- 情感分数条 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="情感值"
+                            android:textColor="#718096"
+                            android:textSize="11sp" />
+
+                        <ProgressBar
+                            android:layout_width="0dp"
+                            android:layout_height="6dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:progress="52"
+                            android:progressTint="#63B3ED"
+                            android:progressBackgroundTint="#E2E8F0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.03"
+                            android:textColor="#4A8FE7"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

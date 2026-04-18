@@ -11,17 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- 👇 这里改成：启动页 + 设为入口 -->
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.theme.ThemeSwitchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryListActivity"
+            android:exported="false" /> <!-- ✅ 唯一正确的启动页（情感日记启动页） -->
+        <activity
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.user.UserCenterActivity"
             android:exported="false" />
@@ -32,13 +39,7 @@
             android:name=".ui.emotion.EmotionStatActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.diary.DiaryDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.diary.DiaryEditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.diary.DiaryListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.login.RegisterActivity"
@@ -49,12 +50,78 @@
         <activity
             android:name=".ui.diary.DiaryHomeActivity"
             android:exported="false" />
-
-        <!-- 👇 MainActivity 去掉启动入口，变成普通页面 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".ui.about.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.personal.PersonalCenterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.user.UserInfoEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiarySearchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryCalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.diary.DiaryRecycleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.audio.AudioInputActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.image.ImagePreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.share.DiaryShareActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.WeekEmotionChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.MonthEmotionTrendActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.StatOverviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.recommend.MoodQuoteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.recommend.EmotionAdviceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.theme.FontSizeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.theme.BgCustomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.theme.ListStyleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.reminder.ReminderSettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.MoodCheckinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.recommend.RecommendActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

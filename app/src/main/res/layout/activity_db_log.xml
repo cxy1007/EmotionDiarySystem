@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.db.DbLogActivity">
+
+
+    <!-- 顶部标题栏 -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_arrow_back"
+            android:contentDescription="返回" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日志记录"
+            android:textColor="#2D3748"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_delete_sweep"
+            android:contentDescription="清空日志" />
+    </LinearLayout>
+
+    <!-- header容器（筛选+统计） -->
+    <LinearLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+    <!-- 分割线 -->
+    <View
+        android:layout_width="match_parent"
+        android:background="#E2E8F0"
+        tools:ignore="MissingConstraints"
+        android:layout_height="1dp"/>
+
+    <!-- 日志级别筛选 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#FFFFFF"
+        android:scrollbars="none"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center_vertical">
+
+            <!-- 全部 - 选中 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="全部"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="#4A5568"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- DEBUG -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="DEBUG"
+                android:textColor="#718096"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="#EDF2F7"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- INFO -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="INFO"
+                android:textColor="#4A8FE7"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="#EBF4FF"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- WARN -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="WARN"
+                android:textColor="#DD6B20"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="#FFFAF0"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- ERROR -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:text="ERROR"
+                android:textColor="#E53E3E"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:background="#FFF5F5"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E2E8F0" />
+
+    <!-- 统计栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#FFFFFF"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共 247 条日志"
+            android:textColor="#718096"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 错误"
+            android:textColor="#E53E3E"
+            android:textSize="11sp"
+            android:background="#FFF5F5"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginEnd="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7 警告"
+            android:textColor="#DD6B20"
+            android:textSize="11sp"
+            android:background="#FFFAF0"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E2E8F0" />
+    </LinearLayout>
+    <!-- 日志列表 -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintTop_toBottomOf="@id/headerContainer"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <!-- ERROR 日志条目 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="#FFFBFB">
+
+                <!-- 颜色指示条 -->
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#FC8181"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ERROR"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:background="#E53E3E"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EmotionAnalyzer"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:layout_marginStart="8dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="06-18 14:32:11.204"
+                            android:textColor="#A0AEC0"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="NLP模型加载失败：Model file not found at assets/sentiment_model.tflite"
+                        android:textColor="#2D3748"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#E2E8F0" />
+
+            <!-- WARN 日志条目 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#F6AD55"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="WARN"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:background="#DD6B20"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DatabaseHelper"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:layout_marginStart="8dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="06-18 13:58:42.019"
+                            android:textColor="#A0AEC0"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="数据库查询耗时超过阈值：query took 1842ms (threshold: 1000ms)"
+                        android:textColor="#2D3748"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#E2E8F0" />
+
+            <!-- INFO 日志条目 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#63B3ED"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="INFO"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:background="#4A8FE7"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BackupManager"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:layout_marginStart="8dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="06-18 02:00:03.881"
+                            android:textColor="#A0AEC0"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="自动备份完成：diary_backup_20250618.db, size=2.4MB, entries=128"
+                        android:textColor="#2D3748"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#E2E8F0" />
+
+            <!-- DEBUG 日志条目 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#CBD5E0"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DEBUG"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:background="#A0AEC0"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DiaryRepository"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:layout_marginStart="8dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="06-18 01:55:22.447"
+                            android:textColor="#A0AEC0"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="insertDiary() called: id=129, title=今天很充实, timestamp=1750204332"
+                        android:textColor="#4A5568"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#E2E8F0" />
+
+            <!-- INFO 日志条目 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#63B3ED"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="INFO"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:background="#4A8FE7"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="EmotionAnalyzer"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:layout_marginStart="8dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="06-18 01:55:23.012"
+                            android:textColor="#A0AEC0"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="情感分析完成：score=0.82, label=POSITIVE, confidence=0.94"
+                        android:textColor="#2D3748"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#E2E8F0" />
+
+            <!-- ERROR 日志条目 2 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="#FFFBFB">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:background="#FC8181"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ERROR"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp"
+                            android:background="#E53E3E"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="6dp"
+                            android:paddingTop="1dp"
+                            android:paddingBottom="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ExportManager"
+                            android:textColor="#718096"
+                            android:textSize="11sp"
+                            android:layout_marginStart="8dp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="06-17 21:13:05.662"
+                            android:textColor="#A0AEC0"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="导出失败：java.io.IOException: Permission denied /storage/emulated/0/Download/"
+                        android:textColor="#2D3748"
+                        android:textSize="12sp"
+                        android:fontFamily="monospace"
+                        android:lineSpacingMultiplier="1.4" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 底部工具栏 -->
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#E2E8F0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="导出日志"
+                android:textColor="#7F16191D"
+                android:textSize="13sp"
+                android:background="#EBF4FF"
+                android:stateListAnimator="@null"
+                android:layout_marginEnd="10dp" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="清空日志"
+                android:textColor="#7F16191D"
+                android:textSize="13sp"
+                android:background="#EDF2F7"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
