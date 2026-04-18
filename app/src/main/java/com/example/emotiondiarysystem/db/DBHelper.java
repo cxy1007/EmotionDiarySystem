@@ -9,12 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    // 数据库名称
     private static final String DB_NAME = "emotion_diary.db";
-    // 数据库版本
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
 
-    // 单例
     private static DBHelper instance;
 
     public static DBHelper getInstance(Context context) {
@@ -28,8 +25,6 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    // ====================== 建表语句 ======================
-    // 用户表
     private static final String CREATE_TABLE_USER =
             "CREATE TABLE user (" +
                     "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -38,16 +33,15 @@ public class DBHelper extends SQLiteOpenHelper {
                     "nickname TEXT," +
                     "createTime TEXT)";
 
-    // 日记表
     private static final String CREATE_TABLE_DIARY =
             "CREATE TABLE diary (" +
                     "diaryId INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "userId INTEGER NOT NULL," +
                     "content TEXT," +
                     "createTime TEXT," +
-                    "emotionType TEXT)";
+                    "emotionType TEXT," +
+                    "is_deleted INTEGER DEFAULT 0)";
 
-    // 情感记录表
     private static final String CREATE_TABLE_EMOTION =
             "CREATE TABLE emotion (" +
                     "emotionId INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -55,7 +49,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     "emotionScore REAL," +
                     "statisticsTime TEXT)";
 
-    // 语音转文字表
     private static final String CREATE_TABLE_AUDIO_NOTE =
             "CREATE TABLE audio_note (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -66,7 +59,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     "create_time TEXT," +
                     "emotion_tag TEXT)";
 
-    // 智能推荐表
     private static final String CREATE_TABLE_RECOMMEND =
             "CREATE TABLE recommend (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -76,7 +68,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     "reason TEXT," +
                     "create_time TEXT)";
 
-    // 心情打卡表
     private static final String CREATE_TABLE_MOOD_CHECKIN =
             "CREATE TABLE mood_checkin (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -86,7 +77,6 @@ public class DBHelper extends SQLiteOpenHelper {
                     "note TEXT," +
                     "create_time TEXT)";
 
-    // ====================== 创建数据库 ======================
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_USER);
@@ -97,30 +87,21 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_MOOD_CHECKIN);
     }
 
-    // ====================== 更新数据库 ======================
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS user");
-        db.execSQL("DROP TABLE IF EXISTS diary");
-        db.execSQL("DROP TABLE IF EXISTS emotion");
-        db.execSQL("DROP TABLE IF EXISTS audio_note");
-        db.execSQL("DROP TABLE IF EXISTS recommend");
-        db.execSQL("DROP TABLE IF EXISTS mood_checkin");
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE diary ADD COLUMN is_deleted INTEGER DEFAULT 0");
+        }
     }
 
-    // ====================== 用户相关操作 ======================
-    // 检查用户是否存在
     public boolean checkUser(String account, String password) {
         SQLiteDatabase db = null;
         Cursor cursor = null;
         try {
             db = getReadableDatabase();
             if (password.isEmpty()) {
-                // 只检查账号是否存在
                 cursor = db.query("user", null, "account = ?", new String[]{account}, null, null, null);
             } else {
-                // 检查账号和密码
                 cursor = db.query("user", null, "account = ? AND password = ?", new String[]{account, password}, null, null, null);
             }
             return cursor != null && cursor.moveToFirst();
@@ -142,7 +123,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 注册用户
     public long registerUser(String account, String password, String nickname, String createTime) {
         SQLiteDatabase db = null;
         try {
@@ -165,7 +145,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 获取用户ID
     public int getUserId(String account) {
         SQLiteDatabase db = null;
         Cursor cursor = null;
@@ -194,8 +173,34 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ====================== 日记相关操作 ======================
-    // 添加日记
+    public String getPasswordByUserId(int userId) {
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        try {
+            db = getReadableDatabase();
+            cursor = db.query("user", new String[]{"password"}, "userId = ?", new String[]{String.valueOf(userId)}, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(cursor.getColumnIndex("password"));
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            if (cursor != null) {
+                try {
+                    cursor.close();
+                } catch (Exception e) {
+                }
+            }
+            if (db != null) {
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
     public long addDiary(int userId, String content, String createTime, String emotionType) {
         SQLiteDatabase db = null;
         try {
@@ -205,6 +210,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put("content", content);
             values.put("createTime", createTime);
             values.put("emotionType", emotionType);
+            values.put("is_deleted", 0);
             return db.insert("diary", null, values);
         } catch (Exception e) {
             return -1;
@@ -218,13 +224,16 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 获取所有日记
     public Cursor getAllDiaries(int userId) {
         SQLiteDatabase db = getReadableDatabase();
-        return db.query("diary", null, "userId = ?", new String[]{String.valueOf(userId)}, null, null, "createTime DESC");
+        return db.query("diary", null, "userId = ? AND is_deleted = 0", new String[]{String.valueOf(userId)}, null, null, "createTime DESC");
     }
 
-    // 更新日记
+    public Cursor getDeletedDiaries(int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.query("diary", null, "userId = ? AND is_deleted = 1", new String[]{String.valueOf(userId)}, null, null, "createTime DESC");
+    }
+
     public int updateDiary(int diaryId, String content, String emotionType) {
         SQLiteDatabase db = null;
         try {
@@ -245,8 +254,45 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 删除日记
-    public int deleteDiary(int diaryId) {
+    public int softDeleteDiary(int diaryId) {
+        SQLiteDatabase db = null;
+        try {
+            db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("is_deleted", 1);
+            return db.update("diary", values, "diaryId = ?", new String[]{String.valueOf(diaryId)});
+        } catch (Exception e) {
+            return 0;
+        } finally {
+            if (db != null) {
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    public int restoreDiary(int diaryId) {
+        SQLiteDatabase db = null;
+        try {
+            db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put("is_deleted", 0);
+            return db.update("diary", values, "diaryId = ?", new String[]{String.valueOf(diaryId)});
+        } catch (Exception e) {
+            return 0;
+        } finally {
+            if (db != null) {
+                try {
+                    db.close();
+                } catch (Exception e) {
+                }
+            }
+        }
+    }
+
+    public int permanentlyDeleteDiary(int diaryId) {
         SQLiteDatabase db = null;
         try {
             db = getWritableDatabase();
@@ -263,8 +309,10 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ====================== 心情打卡相关操作 ======================
-    // 添加心情打卡
+    public int deleteDiary(int diaryId) {
+        return softDeleteDiary(diaryId);
+    }
+
     public long addMoodCheckin(int userId, int moodScore, String moodTag, String note, String createTime) {
         SQLiteDatabase db = null;
         try {
@@ -288,8 +336,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ====================== 语音转文字相关操作 ======================
-    // 添加语音笔记
     public long addAudioNote(int userId, String audioPath, String transcript, int duration, String createTime, String emotionTag) {
         SQLiteDatabase db = null;
         try {
@@ -314,8 +360,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // ====================== 智能推荐相关操作 ======================
-    // 添加推荐
     public long addRecommend(int userId, String recommendType, String content, String reason, String createTime) {
         SQLiteDatabase db = null;
         try {
@@ -339,7 +383,6 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    // 获取推荐列表
     public Cursor getRecommendations(int userId) {
         SQLiteDatabase db = getReadableDatabase();
         return db.query("recommend", null, "user_id = ?", new String[]{String.valueOf(userId)}, null, null, "create_time DESC");

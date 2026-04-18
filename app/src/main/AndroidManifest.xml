@@ -120,6 +120,12 @@
             android:name=".ui.emotion.MoodCheckinActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.emotion.MoodCalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.emotion.MoodDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.recommend.RecommendActivity"
             android:exported="false" />
     </application>

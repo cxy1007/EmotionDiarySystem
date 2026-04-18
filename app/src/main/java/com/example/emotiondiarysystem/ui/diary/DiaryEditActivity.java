@@ -1,8 +1,8 @@
 package com.example.emotiondiarysystem.ui.diary;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,6 +24,8 @@ public class DiaryEditActivity extends AppCompatActivity {
 
     private ActivityDiaryEditBinding binding;
     private DBHelper dbHelper;
+    private int diaryId = -1;
+    private boolean isEdit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +41,58 @@ public class DiaryEditActivity extends AppCompatActivity {
 
         dbHelper = DBHelper.getInstance(this);
 
-        // 绑定保存按钮点击事件
+        setSupportActionBar(binding.toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        diaryId = getIntent().getIntExtra("diaryId", -1);
+        isEdit = getIntent().getBooleanExtra("isEdit", false);
+
+        if (isEdit && diaryId != -1) {
+            binding.toolbar.setTitle("编辑日记");
+            loadDiaryContent();
+        } else {
+            binding.toolbar.setTitle("写日记");
+        }
+
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveDiary();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void loadDiaryContent() {
+        if (diaryId == -1) {
+            return;
+        }
+
+        Cursor cursor = null;
+        try {
+            cursor = dbHelper.getReadableDatabase().query("diary", null,
+                    "diaryId=?", new String[]{String.valueOf(diaryId)}, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+                binding.etContent.setText(content);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "加载日记内容失败", Toast.LENGTH_SHORT).show();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
     }
 
     private void saveDiary() {
@@ -61,22 +108,30 @@ public class DiaryEditActivity extends AppCompatActivity {
         }
 
         try {
-            // 获取当前用户ID
             int userId = SpUtil.getInt(this, "userId", 1);
-            
-            // 保存到数据库
-            long result = dbHelper.addDiary(
-                    userId,
-                    content,
-                    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
-                    "一般" // 可以根据实际情况设置
-            );
 
-            if (result > 0) {
-                Toast.makeText(this, "日记保存成功", Toast.LENGTH_SHORT).show();
-                finish();
+            if (isEdit && diaryId != -1) {
+                int result = dbHelper.updateDiary(diaryId, content, "一般");
+                if (result > 0) {
+                    Toast.makeText(this, "日记更新成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "日记更新失败", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, "日记保存失败", Toast.LENGTH_SHORT).show();
+                long result = dbHelper.addDiary(
+                        userId,
+                        content,
+                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),
+                        "一般"
+                );
+
+                if (result > 0) {
+                    Toast.makeText(this, "日记保存成功", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "日记保存失败", Toast.LENGTH_SHORT).show();
+                }
             }
         } catch (Exception e) {
             Toast.makeText(this, "保存失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();

@@ -8,16 +8,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.emotiondiarysystem.ui.BaseActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.emotiondiarysystem.R;
 import com.example.emotiondiarysystem.db.DBHelper;
+import com.example.emotiondiarysystem.ui.diary.DiaryDetailActivity;
+import com.example.emotiondiarysystem.ui.diary.DiaryEditActivity;
+import com.example.emotiondiarysystem.ui.diary.DiarySearchActivity;
+import com.example.emotiondiarysystem.ui.emotion.MoodCalendarActivity;
+import com.example.emotiondiarysystem.ui.emotion.MoodCheckinActivity;
+import com.example.emotiondiarysystem.ui.personal.PersonalCenterActivity;
 import com.example.emotiondiarysystem.utils.SpUtil;
 
-public class DiaryHomeActivity extends AppCompatActivity {
+public class DiaryHomeActivity extends BaseActivity {
 
     private LinearLayout diaryListContainer;
 
@@ -40,6 +46,46 @@ public class DiaryHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(DiaryHomeActivity.this, DiaryEditActivity.class));
+            }
+        });
+
+        // 绑定搜索按钮点击事件
+        findViewById(R.id.btnSearch).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DiaryHomeActivity.this, DiarySearchActivity.class));
+            }
+        });
+
+        // 绑定个人中心按钮点击事件
+        findViewById(R.id.btnPersonal).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DiaryHomeActivity.this, PersonalCenterActivity.class));
+            }
+        });
+
+        // 绑定去打卡按钮点击事件
+        findViewById(R.id.btnGoCheckin).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DiaryHomeActivity.this, MoodCheckinActivity.class));
+            }
+        });
+
+        // 绑定心情统计按钮点击事件
+        findViewById(R.id.btnMoodCalendar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DiaryHomeActivity.this, MoodCalendarActivity.class));
+            }
+        });
+
+        // 绑定心情统计文字点击事件，跳转到统计概览
+        findViewById(R.id.tvMoodStats).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DiaryHomeActivity.this, com.example.emotiondiarysystem.ui.emotion.StatOverviewActivity.class));
             }
         });
 
@@ -76,6 +122,9 @@ public class DiaryHomeActivity extends AppCompatActivity {
                     TextView tvTime = diaryItem.findViewById(R.id.tvDiaryTime);
                     TextView tvEmotion = diaryItem.findViewById(R.id.tvEmotionType);
 
+                    // 获取日记ID
+                    int diaryId = cursor.getInt(cursor.getColumnIndex("diaryId"));
+                    
                     // 设置数据
                     String content = cursor.getString(cursor.getColumnIndex("content"));
                     String time = cursor.getString(cursor.getColumnIndex("createTime"));
@@ -84,6 +133,17 @@ public class DiaryHomeActivity extends AppCompatActivity {
                     tvContent.setText(content);
                     tvTime.setText(time);
                     tvEmotion.setText(emotion);
+
+                    // 设置点击事件
+                    final int finalDiaryId = diaryId;
+                    diaryItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(DiaryHomeActivity.this, DiaryDetailActivity.class);
+                            intent.putExtra("diaryId", finalDiaryId);
+                            startActivity(intent);
+                        }
+                    });
 
                     // 添加到容器
                     if (diaryListContainer != null) {

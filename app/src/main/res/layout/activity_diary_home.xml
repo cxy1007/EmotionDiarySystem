@@ -33,6 +33,29 @@
                 app:icon="@drawable/ic_search"
                 app:iconTint="@android:color/white"
                 app:backgroundTint="@android:color/transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMoodCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:minWidth="0dp"
+                android:padding="8dp"
+                android:contentDescription="心情统计"
+                app:icon="@android:drawable/ic_dialog_info"
+                app:iconTint="@android:color/white"
+                app:backgroundTint="@android:color/transparent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPersonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:minWidth="0dp"
+                android:padding="8dp"
+                app:icon="@drawable/ic_person"
+                app:iconTint="@android:color/white"
+                app:backgroundTint="@android:color/transparent" />
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -93,18 +116,32 @@
                     android:padding="16dp">
 
                     <TextView
+                        android:id="@+id/tvMoodStats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="心情统计"
                         android:textSize="18sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:textColor="?attr/colorPrimary" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="本周心情指数: 85"
                         android:textSize="14sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnGoCheckin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="去打卡"
+                        android:textSize="12sp"
+                        app:backgroundTint="?attr/colorPrimary"
+                        app:cornerRadius="4dp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

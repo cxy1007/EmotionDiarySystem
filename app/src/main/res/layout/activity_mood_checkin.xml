@@ -56,11 +56,80 @@
                         android:textStyle="bold"
                         android:layout_marginBottom="16dp" />
 
+                    <!-- 心情等级选择 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMoodVeryBad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="😢 很差 (25分)"
+                            android:textSize="16sp"
+                            app:cornerRadius="8dp"
+                            app:backgroundTint="@android:color/transparent"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@android:color/darker_gray" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMoodBad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="😞 较差 (50分)"
+                            android:textSize="16sp"
+                            app:cornerRadius="8dp"
+                            app:backgroundTint="@android:color/transparent"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@android:color/darker_gray" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMoodNeutral"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="😐 一般 (75分)"
+                            android:textSize="16sp"
+                            app:cornerRadius="8dp"
+                            app:backgroundTint="@android:color/transparent"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@android:color/darker_gray" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMoodGood"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="🙂 良好 (90分)"
+                            android:textSize="16sp"
+                            app:cornerRadius="8dp"
+                            app:backgroundTint="@android:color/transparent"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@android:color/darker_gray" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMoodVeryGood"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:text="😄 极好 (100分)"
+                            android:textSize="16sp"
+                            app:cornerRadius="8dp"
+                            app:backgroundTint="@android:color/transparent"
+                            app:strokeWidth="2dp"
+                            app:strokeColor="@android:color/darker_gray" />
+                    </LinearLayout>
+
+                    <!-- 备注输入 -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="写下你的心情..."
+                        android:hint="添加备注（非必填）"
                         app:boxBackgroundMode="outline">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -68,7 +137,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine"
-                            android:minLines="5" />
+                            android:minLines="3" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
@@ -77,6 +146,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="保存" />
+
+                    <TextView
+                        android:id="@+id/tvSelectedMood"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="请选择心情等级"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>

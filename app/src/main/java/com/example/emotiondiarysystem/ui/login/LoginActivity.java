@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.emotiondiarysystem.ui.BaseActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,7 +23,7 @@ import com.example.emotiondiarysystem.databinding.ActivityLoginBinding;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
     private DBHelper dbHelper;

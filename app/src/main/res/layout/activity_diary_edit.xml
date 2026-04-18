@@ -27,6 +27,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -59,8 +60,10 @@
                             android:id="@+id/etContent"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textMultiLine"
-                            android:minLines="10" />
+                            android:inputType="textMultiLine|textCapSentences"
+                            android:minLines="10"
+                            android:gravity="top|start"
+                            android:scrollbars="vertical" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.button.MaterialButton
