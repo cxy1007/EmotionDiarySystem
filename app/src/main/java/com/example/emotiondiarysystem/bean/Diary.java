@@ -11,6 +11,8 @@ public class Diary {
     private String createTime;
     // 情感类型
     private String emotionType;
+    // 是否删除（0：未删除，1：已删除）
+    private int isDeleted;
 
     public Diary() {}
 
@@ -20,6 +22,16 @@ public class Diary {
         this.content = content;
         this.createTime = createTime;
         this.emotionType = emotionType;
+        this.isDeleted = 0;
+    }
+
+    public Diary(int diaryId, int userId, String content, String createTime, String emotionType, int isDeleted) {
+        this.diaryId = diaryId;
+        this.userId = userId;
+        this.content = content;
+        this.createTime = createTime;
+        this.emotionType = emotionType;
+        this.isDeleted = isDeleted;
     }
 
     public int getDiaryId() { return diaryId; }
@@ -32,4 +44,7 @@ public class Diary {
     public void setCreateTime(String createTime) { this.createTime = createTime; }
     public String getEmotionType() { return emotionType; }
     public void setEmotionType(String emotionType) { this.emotionType = emotionType; }
+    public int getIsDeleted() { return isDeleted; }
+    public void setIsDeleted(int isDeleted) { this.isDeleted = isDeleted; }
+    public boolean isDeleted() { return isDeleted == 1; }
 }

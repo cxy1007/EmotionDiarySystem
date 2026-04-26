@@ -5,11 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.diary.DiaryDataManageActivity">
 
     <!-- 顶部栏 -->
     <LinearLayout
-        android:id="@+id/topBar"
+        android:id="@+id/top_bar"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:orientation="horizontal"
@@ -17,17 +18,21 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
 
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
+            android:id="@+id/btn_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_back" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -50,7 +55,7 @@
         android:layout_height="1dp"
         android:background="#E2E8F0"
 
-        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintTop_toBottomOf="@id/top_bar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -450,6 +455,7 @@
                         </LinearLayout>
 
                         <Button
+                            android:id="@+id/btn_clear_cache"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:minHeight="36dp"
@@ -499,6 +505,7 @@
                         </LinearLayout>
 
                         <Button
+                            android:id="@+id/btn_reset_database"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:minHeight="36dp"
@@ -508,8 +515,8 @@
                             android:paddingEnd="12dp"
                             android:paddingTop="4dp"
                             android:paddingBottom="4dp"
-                            android:textColor="#191A1C"
-
+                            android:textColor="#E53E3E"
+                            android:background="#FEF2F2"
                             android:stateListAnimator="@null"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -518,6 +525,4 @@
         </LinearLayout>
     </ScrollView>
 
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

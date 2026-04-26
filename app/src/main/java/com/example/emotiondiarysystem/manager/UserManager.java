@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.emotiondiarysystem.bean.User;
 import com.example.emotiondiarysystem.db.DBHelper;
+import com.example.emotiondiarysystem.utils.PasswordUtil;
 
 public class UserManager {
     private static final String TAG = "UserManager";
@@ -18,12 +19,13 @@ public class UserManager {
     }
 
     // ====================== 1. 用户注册 ======================
-    public long register(String account, String password, String nickname, String createTime) {
+    public long register(String account, String password, String nickname, String avatar, String createTime) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("account", account);
-        values.put("password", password);
+        values.put("password", PasswordUtil.md5(password));
         values.put("nickname", nickname);
+        values.put("avatar", avatar);
         values.put("createTime", createTime);
 
         long result = db.insert("user", null, values);
@@ -48,6 +50,7 @@ public class UserManager {
                 user.setAccount(cursor.getString(cursor.getColumnIndexOrThrow("account")));
                 user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
                 user.setNickname(cursor.getString(cursor.getColumnIndexOrThrow("nickname")));
+                user.setAvatar(cursor.getString(cursor.getColumnIndexOrThrow("avatar")));
                 user.setCreateTime(cursor.getString(cursor.getColumnIndexOrThrow("createTime")));
             } catch (IllegalArgumentException e) {
                 Log.e(TAG, "login: 解析用户数据失败", e);
@@ -75,5 +78,72 @@ public class UserManager {
         cursor.close();
         db.close();
         return exist;
+    }
+
+    // ====================== 4. 更新用户信息 ======================
+    public boolean updateUserInfo(int userId, String nickname, String avatar) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("nickname", nickname);
+        if (avatar != null) {
+            values.put("avatar", avatar);
+        }
+
+        int result = db.update("user", values, "userId=?", new String[]{String.valueOf(userId)});
+        db.close();
+        return result > 0;
+    }
+
+    // ====================== 5. 根据用户ID获取用户信息 ======================
+    public User getUserById(int userId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query("user",
+                null,
+                "userId=?",
+                new String[]{String.valueOf(userId)},
+                null, null, null);
+
+        User user = null;
+        if (cursor.moveToFirst()) {
+            user = new User();
+            try {
+                user.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow("userId")));
+                user.setAccount(cursor.getString(cursor.getColumnIndexOrThrow("account")));
+                user.setPassword(cursor.getString(cursor.getColumnIndexOrThrow("password")));
+                user.setNickname(cursor.getString(cursor.getColumnIndexOrThrow("nickname")));
+                user.setAvatar(cursor.getString(cursor.getColumnIndexOrThrow("avatar")));
+                user.setCreateTime(cursor.getString(cursor.getColumnIndexOrThrow("createTime")));
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "getUserById: 解析用户数据失败", e);
+            } finally {
+                cursor.close();
+            }
+        } else {
+            cursor.close();
+        }
+
+        db.close();
+        return user;
+    }
+
+    public boolean verifyPassword(String storedPassword, String inputPassword) {
+        if (storedPassword == null || inputPassword == null) {
+            return false;
+        }
+        String inputMd5 = PasswordUtil.md5(inputPassword);
+        if (storedPassword.equalsIgnoreCase(inputMd5)) {
+            return true;
+        }
+        // 兼容历史明文密码数据
+        return storedPassword.equals(inputPassword);
+    }
+
+    public boolean updatePassword(int userId, String newPassword) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password", PasswordUtil.md5(newPassword));
+        int result = db.update("user", values, "userId=?", new String[]{String.valueOf(userId)});
+        db.close();
+        return result > 0;
     }
 }

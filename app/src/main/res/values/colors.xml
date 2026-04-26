@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="emotion_positive">#FF276749</color>
+    <color name="emotion_neutral">#FF718096</color>
+    <color name="emotion_negative">#FF702459</color>
 </resources>

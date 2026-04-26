@@ -1,93 +1,364 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="#F9FAFB"
-    android:padding="24dp">
+    android:fitsSystemWindows="true">
 
-    <!-- 标题 -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="情感分析结果"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="#2D3748"
-        android:gravity="center"
-        android:layout_marginBottom="30dp"/>
-
-    <!-- 卡片 -->
+    <!-- 顶部导航栏 -->
     <LinearLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:orientation="vertical"
-        android:padding="28dp"
-        android:layout_marginBottom="30dp">
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp"
+        android:background="#FFFFFF">
 
-        <!-- 日记内容 -->
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="今天心情非常好，学习很顺利，一切都在变好！"
-            android:textSize="17sp"
-            android:textColor="#2D3748"
-            android:lineSpacingExtra="4dp"
-            android:gravity="center"
-            android:layout_marginBottom="20dp"/>
-
-        <!-- 分割线 -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#E2E8F0"
-            android:layout_marginBottom="20dp"/>
-
-        <!-- 情感类型 -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="情感类型：积极"
+            android:layout_weight="1"
+            android:text="情感分析"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#2D3748"
-            android:background="#E2E8F0"
-            android:gravity="center"
-            android:padding="8dp"
-            android:layout_marginBottom="12dp"/>
-
-        <!-- 心情状态 -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="心情状态：开心、满足"
-            android:textSize="16sp"
-            android:textColor="#718096"
-            android:gravity="center"
-            android:layout_marginBottom="12dp"/>
-
-        <!-- 建议 -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="建议：保持良好心态，继续加油！"
-            android:textSize="16sp"
-            android:textColor="#718096"
-            android:gravity="center"
-            android:lineSpacingExtra="2dp"/>
-
+            android:gravity="center"/>
     </LinearLayout>
 
-    <!-- 返回按钮 -->
-    <Button
+    <View
+        android:id="@+id/divider"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="返回编辑"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#2D3748"
-        android:layout_marginTop="8dp"/>
+        android:layout_height="1dp"
+        android:background="#E2E8F0"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- 统计概览卡片 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="统计概览"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"
+                    android:layout_marginBottom="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- 总日记 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="总日记"
+                            android:textSize="12sp"
+                            android:textColor="#718096"/>
+                        <TextView
+                            android:id="@+id/tv_total_diary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="#2D3748"/>
+                    </LinearLayout>
+
+                    <!-- 积极 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="积极"
+                            android:textSize="12sp"
+                            android:textColor="#276749"/>
+                        <TextView
+                            android:id="@+id/tv_positive_diary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="#276749"/>
+                    </LinearLayout>
+
+                    <!-- 中性 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="中性"
+                            android:textSize="12sp"
+                            android:textColor="#718096"/>
+                        <TextView
+                            android:id="@+id/tv_neutral_diary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="#718096"/>
+                    </LinearLayout>
+
+                    <!-- 消极 -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="消极"
+                            android:textSize="12sp"
+                            android:textColor="#702459"/>
+                        <TextView
+                            android:id="@+id/tv_negative_diary"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="28sp"
+                            android:textStyle="bold"
+                            android:textColor="#702459"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 情感分析结果卡片 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="情感分析结果"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/tv_emotion_analysis_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="暂无分析结果，请先记录几篇日记"
+                    android:textSize="14sp"
+                    android:textColor="#718096"
+                    android:lineSpacingExtra="4dp"/>
+            </LinearLayout>
+
+            <!-- 周情感统计图 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="周情感统计图"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- 自定义柱状图容器 -->
+                <com.example.emotiondiarysystem.ui.emotion.WeekBarChartView
+                    android:id="@+id/week_bar_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+                <!-- 无数据提示 -->
+                <TextView
+                    android:id="@+id/tv_week_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center"
+                    android:text="本周暂无日记数据"
+                    android:textSize="14sp"
+                    android:textColor="#A0AEC0"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <!-- 月情感趋势图 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="月情感趋势图"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- 自定义折线图容器 -->
+                <com.example.emotiondiarysystem.ui.emotion.MonthLineChartView
+                    android:id="@+id/month_line_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+                <!-- 无数据提示 -->
+                <TextView
+                    android:id="@+id/tv_month_no_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:gravity="center"
+                    android:text="本月暂无日记数据"
+                    android:textSize="14sp"
+                    android:textColor="#A0AEC0"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
+            <!-- 心情语录推荐 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心情语录推荐"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/tv_quote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="「生活中不缺少美，缺少的是发现美的眼睛。」"
+                    android:textSize="15sp"
+                    android:textColor="#4A5568"
+                    android:textStyle="italic"
+                    android:lineSpacingExtra="6dp"
+                    android:padding="12dp"
+                    android:background="#F7FAFC"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="end"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/tv_quote_author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="— 罗丹"
+                        android:textSize="12sp"
+                        android:textColor="#A0AEC0"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 情绪建议 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="情绪建议"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#2D3748"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_weekly_summary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="暂无数据，开始写日记后查看趋势"
+                    android:textSize="14sp"
+                    android:textColor="#718096"
+                    android:lineSpacingExtra="4dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:id="@+id/tv_advice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="登录后开始记录日记，我会为您分析情绪趋势"
+                    android:textSize="14sp"
+                    android:textColor="#4A5568"
+                    android:lineSpacingExtra="4dp"
+                    android:padding="12dp"
+                    android:background="#EDF2F7"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

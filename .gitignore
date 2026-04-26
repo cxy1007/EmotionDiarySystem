@@ -30,3 +30,10 @@ Thumbs.db
 # 本地配置文件
 *.local.properties
 *.properties.local
+
+# 过滤敏感配置文件（如密钥、签名配置）
+signing.properties
+keystore.properties
+
+# 过滤虚拟机相关文件
+*.hprof

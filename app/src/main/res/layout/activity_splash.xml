@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splash_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:fitsSystemWindows="true">
 
     <!-- App图标（用默认图标，也可以替换成自己的） -->
     <ImageView
@@ -15,6 +17,7 @@
 
     <!-- App名称 -->
     <TextView
+        android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="智能情感日记"
@@ -24,6 +27,7 @@
 
     <!-- 副标题 -->
     <TextView
+        android:id="@+id/tv_app_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="记录美好 · 感知情绪"

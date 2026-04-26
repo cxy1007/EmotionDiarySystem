@@ -10,7 +10,7 @@ public class DBHelper extends SQLiteOpenHelper {
     // 数据库名称
     private static final String DB_NAME = "emotion_diary.db";
     // 数据库版本
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     // 单例
     private static DBHelper instance;
@@ -34,6 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "account TEXT NOT NULL UNIQUE," +
                     "password TEXT NOT NULL," +
                     "nickname TEXT," +
+                    "avatar TEXT," +
                     "createTime TEXT)";
 
     // 日记表
@@ -43,7 +44,8 @@ public class DBHelper extends SQLiteOpenHelper {
                     "userId INTEGER NOT NULL," +
                     "content TEXT," +
                     "createTime TEXT," +
-                    "emotionType TEXT)";
+                    "emotionType TEXT," +
+                    "is_deleted INTEGER DEFAULT 0)";
 
     // 情感记录表
     private static final String CREATE_TABLE_EMOTION =

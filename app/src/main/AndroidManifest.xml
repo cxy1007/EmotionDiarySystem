@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,6 +18,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.setting.ThemeSwitchActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.setting.ChangePasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.diary.DiaryDetailActivity"
@@ -30,13 +38,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.user.UserCenterActivity"
+            android:name=".ui.diary.DiaryRecycleActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".ui.diary.DiarySearchActivity"
+            android:exported="false" />
+
         <activity
             android:name=".ui.setting.SettingActivity"
             android:exported="false" />
+
         <activity
-            android:name=".ui.emotion.EmotionStatActivity"
+            android:name=".ui.user.UserCenterActivity"
             android:exported="false" />
         <activity
             android:name=".ui.diary.DiaryEditActivity"
@@ -51,8 +65,25 @@
             android:name=".ui.diary.DiaryHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.diary.DiaryDataManageActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.user.UserInfoEditActivity"
+            android:exported="false" />
+
+        <!-- FileProvider配置 -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
