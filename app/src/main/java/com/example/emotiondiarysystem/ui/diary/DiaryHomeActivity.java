@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.emotiondiarysystem.R;
 import com.example.emotiondiarysystem.ui.base.BaseActivity;
+import com.example.emotiondiarysystem.ui.fragment.CalendarFragment;
 import com.example.emotiondiarysystem.ui.fragment.DiaryListFragment;
 import com.example.emotiondiarysystem.ui.fragment.EmotionStatFragment;
 import com.example.emotiondiarysystem.ui.fragment.UserCenterFragment;
@@ -23,6 +24,7 @@ public class DiaryHomeActivity extends BaseActivity {
     private BottomNavigationView bottomNavigation;
 
     private DiaryListFragment diaryListFragment;
+    private CalendarFragment calendarFragment;
     private EmotionStatFragment emotionStatFragment;
     private UserCenterFragment userCenterFragment;
     private Fragment currentFragment;
@@ -56,6 +58,7 @@ public class DiaryHomeActivity extends BaseActivity {
 
     private void initFragments() {
         diaryListFragment = new DiaryListFragment();
+        calendarFragment = new CalendarFragment();
         emotionStatFragment = new EmotionStatFragment();
         userCenterFragment = new UserCenterFragment();
     }
@@ -65,6 +68,9 @@ public class DiaryHomeActivity extends BaseActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_diary) {
                 showFragment(diaryListFragment);
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                showFragment(calendarFragment);
                 return true;
             } else if (itemId == R.id.nav_emotion) {
                 showFragment(emotionStatFragment);

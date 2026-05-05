@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,18 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.emotiondiarysystem.R;
-import com.example.emotiondiarysystem.bean.Diary;
-import com.example.emotiondiarysystem.manager.DiaryManager;
-import com.example.emotiondiarysystem.ui.emotion.MonthLineChartView;
-import com.example.emotiondiarysystem.ui.emotion.WeekBarChartView;
-import com.example.emotiondiarysystem.utils.SpUtil;
+import com.example.emotiondiarysystem.manager.EmotionStatManager;
+import com.example.emotiondiarysystem.ui.emotion.EmotionRingChartView;
+import com.example.emotiondiarysystem.ui.emotion.EmotionKeywordCloudView;
 import com.example.emotiondiarysystem.utils.ThemeColorUtil;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class EmotionStatFragment extends Fragment {
@@ -32,48 +27,22 @@ public class EmotionStatFragment extends Fragment {
     private TextView tvPositiveDiary;
     private TextView tvNeutralDiary;
     private TextView tvNegativeDiary;
-    private TextView tvWeeklySummary;
-    private TextView tvAdvice;
-    private TextView tvEmotionAnalysisResult;
     private TextView tvQuote;
     private TextView tvQuoteAuthor;
+    private TextView tvWeeklySummary;
+    private TextView tvAdvice;
     private LinearLayout topBar;
-    private WeekBarChartView weekBarChart;
-    private TextView tvWeekNoData;
-    private MonthLineChartView monthLineChart;
-    private TextView tvMonthNoData;
+    private LinearLayout layoutEmpty;
+    private LinearLayout layoutStats;
+    private TextView tvMonthTitle;
+    private ImageButton btnPrevMonth;
+    private ImageButton btnNextMonth;
+    private EmotionRingChartView emotionRingChart;
+    private EmotionKeywordCloudView emotionKeywordCloud;
 
-    private DiaryManager diaryManager;
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_emotion_stat, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initViews(view);
-        diaryManager = new DiaryManager(requireContext());
-    }
-
-    private void initViews(View view) {
-        tvTotalDiary = view.findViewById(R.id.tv_total_diary);
-        tvPositiveDiary = view.findViewById(R.id.tv_positive_diary);
-        tvNeutralDiary = view.findViewById(R.id.tv_neutral_diary);
-        tvNegativeDiary = view.findViewById(R.id.tv_negative_diary);
-        tvWeeklySummary = view.findViewById(R.id.tv_weekly_summary);
-        tvAdvice = view.findViewById(R.id.tv_advice);
-        tvEmotionAnalysisResult = view.findViewById(R.id.tv_emotion_analysis_result);
-        tvQuote = view.findViewById(R.id.tv_quote);
-        tvQuoteAuthor = view.findViewById(R.id.tv_quote_author);
-        topBar = view.findViewById(R.id.top_bar);
-        weekBarChart = view.findViewById(R.id.week_bar_chart);
-        tvWeekNoData = view.findViewById(R.id.tv_week_no_data);
-        monthLineChart = view.findViewById(R.id.month_line_chart);
-        tvMonthNoData = view.findViewById(R.id.tv_month_no_data);
-    }
+    private EmotionStatManager emotionStatManager;
+    private int currentYear;
+    private int currentMonth;
 
     private static final String[] QUOTES = {
         "「生活中不缺少美，缺少的是发现美的眼睛。」", "「每一个不曾起舞的日子，都是对生命的辜负。」",
@@ -92,203 +61,104 @@ public class EmotionStatFragment extends Fragment {
         "— 李宗盛", "— 林徽因", "— 莎士比亚", "— 网络语录"
     };
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_emotion_stat, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews(view);
+        emotionStatManager = new EmotionStatManager(requireContext());
+        
+        Calendar now = Calendar.getInstance();
+        currentYear = now.get(Calendar.YEAR);
+        currentMonth = now.get(Calendar.MONTH);
+    }
+
+    private void initViews(View view) {
+        tvTotalDiary = view.findViewById(R.id.tv_total_diary);
+        tvPositiveDiary = view.findViewById(R.id.tv_positive_diary);
+        tvNeutralDiary = view.findViewById(R.id.tv_neutral_diary);
+        tvNegativeDiary = view.findViewById(R.id.tv_negative_diary);
+        tvQuote = view.findViewById(R.id.tv_quote);
+        tvQuoteAuthor = view.findViewById(R.id.tv_quote_author);
+        tvWeeklySummary = view.findViewById(R.id.tv_weekly_summary);
+        tvAdvice = view.findViewById(R.id.tv_advice);
+        topBar = view.findViewById(R.id.top_bar);
+        layoutEmpty = view.findViewById(R.id.layout_empty);
+        layoutStats = view.findViewById(R.id.layout_stats);
+        tvMonthTitle = view.findViewById(R.id.tv_month_title);
+        btnPrevMonth = view.findViewById(R.id.btn_prev_month);
+        btnNextMonth = view.findViewById(R.id.btn_next_month);
+        emotionRingChart = view.findViewById(R.id.emotion_ring_chart);
+        emotionKeywordCloud = view.findViewById(R.id.emotion_keyword_cloud);
+
+        btnPrevMonth.setOnClickListener(v -> {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            loadMonthData();
+        });
+
+        btnNextMonth.setOnClickListener(v -> {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            loadMonthData();
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
-        loadAllData();
+        loadMonthData();
         applyFullTheme();
     }
 
-    private void loadAllData() {
-        int userId = SpUtil.getInt(requireContext(), "userId", -1);
-        if (userId == -1) {
-            resetStats();
-            return;
-        }
-        List<Diary> diaries = diaryManager.getDiaryListByUserId(userId);
-        if (diaries == null) diaries = new ArrayList<>();
+    private void loadMonthData() {
+        tvMonthTitle.setText(String.format(Locale.getDefault(), "%d年%d月", currentYear, currentMonth + 1));
 
-        int total = diaries.size();
-        int positive = 0, neutral = 0, negative = 0;
-        for (Diary d : diaries) {
-            String e = d.getEmotionType();
-            if ("积极".equals(e)) positive++;
-            else if ("中性".equals(e)) neutral++;
-            else if ("消极".equals(e)) negative++;
-        }
+        EmotionStatManager.EmotionStatData statData = emotionStatManager.getMonthEmotionStat(currentYear, currentMonth);
 
-        loadEmotionStats(total, positive, neutral, negative);
-        loadEmotionAnalysisResult(diaries, positive, neutral, negative);
-        loadWeeklyChart(diaries);
-        loadMonthlyChart(diaries);
-        loadMoodQuote(positive, neutral, negative);
-        updateAdvice(total, positive, neutral, negative);
-    }
-
-    private void loadEmotionStats(int total, int positive, int neutral, int negative) {
-        if (tvTotalDiary != null) tvTotalDiary.setText(String.valueOf(total));
-        if (tvPositiveDiary != null) tvPositiveDiary.setText(String.valueOf(positive));
-        if (tvNeutralDiary != null) tvNeutralDiary.setText(String.valueOf(neutral));
-        if (tvNegativeDiary != null) tvNegativeDiary.setText(String.valueOf(negative));
-    }
-
-    private void loadEmotionAnalysisResult(List<Diary> diaries, int positive, int neutral, int negative) {
-        if (tvEmotionAnalysisResult == null) return;
-        if (diaries.isEmpty()) {
-            tvEmotionAnalysisResult.setText("暂无分析结果，请先记录几篇日记吧");
-            return;
-        }
-        int total = diaries.size();
-        double pR = positive * 100.0 / total;
-        double nR = neutral * 100.0 / total;
-        double ngR = negative * 100.0 / total;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format(Locale.getDefault(),
-            "共 %d 篇，积极 %.0f%%，中性 %.0f%%，消极 %.0f%%。\n\n", total, pR, nR, ngR));
-
-        if (positive >= neutral && positive >= negative) {
-            sb.append("主导情绪：积极 — 您的状态非常阳光！");
-        } else if (negative >= neutral && negative >= positive) {
-            sb.append("主导情绪：消极 — 最近压��可能较大，记得照顾好自己。");
+        if (statData.totalCount == 0) {
+            layoutEmpty.setVisibility(View.VISIBLE);
+            layoutStats.setVisibility(View.GONE);
+            emotionRingChart.setVisibility(View.GONE);
+            emotionKeywordCloud.setVisibility(View.GONE);
+            
+            tvWeeklySummary.setText("暂无数据，开始写日记后查看趋势");
+            tvAdvice.setText("每天记录日记可以帮助您更好地了解自己的情绪变化哦");
+            loadMoodQuote(0, 0, 0);
         } else {
-            sb.append("主导情绪：中性 — 情绪整体稳定，保持记录的习惯。");
+            layoutEmpty.setVisibility(View.GONE);
+            layoutStats.setVisibility(View.VISIBLE);
+            emotionRingChart.setVisibility(View.VISIBLE);
+            emotionKeywordCloud.setVisibility(View.VISIBLE);
+
+            tvTotalDiary.setText(String.valueOf(statData.totalCount));
+            tvPositiveDiary.setText(String.valueOf(statData.positiveCount));
+            tvNeutralDiary.setText(String.valueOf(statData.neutralCount));
+            tvNegativeDiary.setText(String.valueOf(statData.negativeCount));
+
+            emotionRingChart.setData(
+                statData.positiveCount,
+                statData.neutralCount,
+                statData.negativeCount,
+                statData.dominantEmotion
+            );
+
+            emotionKeywordCloud.setKeywords(statData.keywordMap);
+
+            updateAdvice(statData.totalCount, statData.positiveCount, statData.neutralCount, statData.negativeCount);
+            loadMoodQuote(statData.positiveCount, statData.neutralCount, statData.negativeCount);
         }
-        tvEmotionAnalysisResult.setText(sb.toString());
-    }
-
-    private void loadWeeklyChart(List<Diary> diaries) {
-        if (weekBarChart == null || tvWeekNoData == null) return;
-        int[] pos = new int[7];
-        int[] neu = new int[7];
-        int[] neg = new int[7];
-
-        // 仅统计本周（周一 00:00:00 到 周日 23:59:59）
-        Calendar weekStart = Calendar.getInstance();
-        weekStart.setFirstDayOfWeek(Calendar.MONDAY);
-        weekStart.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        weekStart.set(Calendar.HOUR_OF_DAY, 0);
-        weekStart.set(Calendar.MINUTE, 0);
-        weekStart.set(Calendar.SECOND, 0);
-        weekStart.set(Calendar.MILLISECOND, 0);
-
-        Calendar weekEnd = (Calendar) weekStart.clone();
-        weekEnd.add(Calendar.DAY_OF_MONTH, 6);
-        weekEnd.set(Calendar.HOUR_OF_DAY, 23);
-        weekEnd.set(Calendar.MINUTE, 59);
-        weekEnd.set(Calendar.SECOND, 59);
-        weekEnd.set(Calendar.MILLISECOND, 999);
-
-        for (Diary d : diaries) {
-            Date date = parseDiaryDate(d.getCreateTime());
-            if (date == null) continue;
-
-            Calendar itemCal = Calendar.getInstance();
-            itemCal.setTime(date);
-            if (itemCal.before(weekStart) || itemCal.after(weekEnd)) continue;
-
-            int weekday = itemCal.get(Calendar.DAY_OF_WEEK);
-            int idx;
-            if (weekday == Calendar.SUNDAY) {
-                idx = 6;
-            } else {
-                idx = weekday - Calendar.MONDAY; // 周一->0 ... 周六->5
-            }
-
-            String emotion = d.getEmotionType();
-            if ("积极".equals(emotion)) {
-                pos[idx]++;
-            } else if ("中性".equals(emotion)) {
-                neu[idx]++;
-            } else if ("消极".equals(emotion)) {
-                neg[idx]++;
-            }
-        }
-
-        String[] labels = {"周一", "周二", "周三", "周四", "周五", "周六", "周日"};
-        boolean hasData = false;
-        for (int i = 0; i < 7; i++) {
-            if (pos[i] > 0 || neu[i] > 0 || neg[i] > 0) {
-                hasData = true;
-                break;
-            }
-        }
-        if (hasData) {
-            weekBarChart.setVisibility(View.VISIBLE);
-            tvWeekNoData.setVisibility(View.GONE);
-            weekBarChart.setDayLabels(labels);
-            weekBarChart.setData(pos, neu, neg);
-        } else {
-            weekBarChart.setVisibility(View.GONE);
-            tvWeekNoData.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void loadMonthlyChart(List<Diary> diaries) {
-        if (monthLineChart == null || tvMonthNoData == null) return;
-        int[] pos = new int[31];
-        int[] neu = new int[31];
-        int[] neg = new int[31];
-
-        Calendar now = Calendar.getInstance();
-        int curYear = now.get(Calendar.YEAR);
-        int curMonth = now.get(Calendar.MONTH);
-        int daysInMonth = now.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-        for (Diary d : diaries) {
-            Date date = parseDiaryDate(d.getCreateTime());
-            if (date == null) continue;
-
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(date);
-            if (cal.get(Calendar.YEAR) == curYear && cal.get(Calendar.MONTH) == curMonth) {
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-                String emotion = d.getEmotionType();
-                if ("积极".equals(emotion)) {
-                    pos[day - 1]++;
-                } else if ("中性".equals(emotion)) {
-                    neu[day - 1]++;
-                } else if ("消极".equals(emotion)) {
-                    neg[day - 1]++;
-                }
-            }
-        }
-
-        boolean hasData = false;
-        for (int i = 0; i < daysInMonth; i++) {
-            if (pos[i] > 0 || neu[i] > 0 || neg[i] > 0) {
-                hasData = true;
-                break;
-            }
-        }
-
-        if (hasData) {
-            monthLineChart.setVisibility(View.VISIBLE);
-            tvMonthNoData.setVisibility(View.GONE);
-            monthLineChart.setData(pos, neu, neg, daysInMonth);
-        } else {
-            monthLineChart.setVisibility(View.GONE);
-            tvMonthNoData.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private Date parseDiaryDate(String createTime) {
-        if (createTime == null || createTime.trim().isEmpty()) return null;
-        String source = createTime.trim();
-        String[] patterns = {"yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"};
-        for (String pattern : patterns) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.getDefault());
-                sdf.setLenient(false);
-                String raw = source;
-                if (raw.length() > pattern.length()) {
-                    raw = raw.substring(0, pattern.length());
-                }
-                return sdf.parse(raw);
-            } catch (Exception ignored) {
-            }
-        }
-        return null;
     }
 
     private void loadMoodQuote(int positive, int neutral, int negative) {
@@ -327,15 +197,6 @@ public class EmotionStatFragment extends Fragment {
         tvAdvice.setText(advice);
     }
 
-    private void resetStats() {
-        tvTotalDiary.setText("0");
-        tvPositiveDiary.setText("0");
-        tvNeutralDiary.setText("0");
-        tvNegativeDiary.setText("0");
-        tvWeeklySummary.setText("请先登录后查看情感统计");
-        tvAdvice.setText("登录后开始记录日记，我会为您分析情绪趋势");
-    }
-
     private void applyFullTheme() {
         if (getView() == null) return;
         ThemeColorUtil.ThemeColors colors = ThemeColorUtil.getCurrentTheme(requireContext());
@@ -347,7 +208,6 @@ public class EmotionStatFragment extends Fragment {
 
         applyRecursive(getView(), colors);
 
-        // 递归处理所有子视图的浅色背景
         ThemeColorUtil.applyDarkModeRecursive(getView(), colors, isDark);
     }
 

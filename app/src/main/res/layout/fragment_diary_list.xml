@@ -84,14 +84,15 @@
 
     </LinearLayout>
 
-    <!-- 日记列表 RecyclerView -->
+    <!-- 日记列表 RecyclerView - 横向卡片流 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_diary"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="12dp"
-        android:clipToPadding="false"/>
+        android:paddingHorizontal="40dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"/>
 
     <!-- 空状态提示 -->
     <LinearLayout

@@ -106,28 +106,58 @@ public class DiaryRecycleActivity extends BaseActivity implements View.OnClickLi
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.item_diary_card, parent, false);
+            View view = getLayoutInflater().inflate(R.layout.item_recycle_diary, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Diary diary = diaries.get(position);
-            holder.tvContent.setText(diary.getContent());
-            holder.tvDate.setText(diary.getCreateTime().substring(0, 10));
-            holder.tvEmotion.setText(diary.getEmotionType());
-
-            // 设置情感标签颜色
-            switch (diary.getEmotionType()) {
-                case "积极":
-                    holder.tvEmotion.setTextColor(0xFF48BB78);
-                    break;
-                case "消极":
-                    holder.tvEmotion.setTextColor(0xFFF56565);
-                    break;
-                default:
-                    holder.tvEmotion.setTextColor(0xFFECC94B);
-                    break;
+            
+            // 显示日期
+            String createTime = diary.getCreateTime();
+            if (createTime != null && createTime.length() >= 10) {
+                holder.tvDate.setText(createTime.substring(0, 10));
+            } else {
+                holder.tvDate.setText("");
+            }
+            
+            // 显示情感类型
+            String emotionType = diary.getEmotionType();
+            if (emotionType != null) {
+                holder.tvEmotion.setText(emotionType);
+                // 设置情感标签颜色
+                switch (emotionType) {
+                    case "积极":
+                        holder.tvEmotion.setBackgroundColor(0xFF48BB78);
+                        break;
+                    case "消极":
+                        holder.tvEmotion.setBackgroundColor(0xFFF56565);
+                        break;
+                    default:
+                        holder.tvEmotion.setBackgroundColor(0xFFECC94B);
+                        break;
+                }
+            } else {
+                holder.tvEmotion.setText("");
+                holder.tvEmotion.setBackgroundColor(0xFF888888);
+            }
+            
+            // 显示标题
+            String title = diary.getTitle();
+            if (title != null && !title.isEmpty()) {
+                holder.tvTitle.setText(title);
+                holder.tvTitle.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvTitle.setVisibility(View.GONE);
+            }
+            
+            // 显示内容
+            String content = diary.getContent();
+            if (content != null) {
+                holder.tvContent.setText(content);
+            } else {
+                holder.tvContent.setText("");
             }
 
             holder.btnRestore.setOnClickListener(v -> {
@@ -167,68 +197,21 @@ public class DiaryRecycleActivity extends BaseActivity implements View.OnClickLi
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView tvContent;
             TextView tvDate;
             TextView tvEmotion;
+            TextView tvTitle;
+            TextView tvContent;
             TextView btnRestore;
             TextView btnDelete;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tvContent = itemView.findViewById(R.id.tv_content);
                 tvDate = itemView.findViewById(R.id.tv_date);
                 tvEmotion = itemView.findViewById(R.id.tv_emotion);
-
-                // 添加恢复和删除按钮
-                LinearLayout buttonLayout = new LinearLayout(DiaryRecycleActivity.this);
-                buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
-                buttonLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                ));
-                buttonLayout.setPadding(0, 12, 0, 0);
-
-                btnRestore = new TextView(DiaryRecycleActivity.this);
-                btnRestore.setText("恢复");
-                btnRestore.setTextSize(14);
-                btnRestore.setTextColor(0xFF3182CE);
-                btnRestore.setPadding(16, 8, 16, 8);
-                btnRestore.setLayoutParams(new LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1
-                ));
-                btnRestore.setGravity(View.TEXT_ALIGNMENT_CENTER);
-
-                btnDelete = new TextView(DiaryRecycleActivity.this);
-                btnDelete.setText("彻底删除");
-                btnDelete.setTextSize(14);
-                btnDelete.setTextColor(0xFFF56565);
-                btnDelete.setPadding(16, 8, 16, 8);
-                btnDelete.setLayoutParams(new LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1
-                ));
-                btnDelete.setGravity(View.TEXT_ALIGNMENT_CENTER);
-
-                buttonLayout.addView(btnRestore);
-                buttonLayout.addView(btnDelete);
-
-                // 获取CardView内部的LinearLayout并添加按钮布局
-                LinearLayout linearLayout = itemView.findViewById(android.R.id.content);
-                if (linearLayout == null) {
-                    // 如果找不到android.R.id.content，尝试获取直接子视图
-                    if (itemView instanceof androidx.cardview.widget.CardView) {
-                        androidx.cardview.widget.CardView cardView = (androidx.cardview.widget.CardView) itemView;
-                        if (cardView.getChildCount() > 0 && cardView.getChildAt(0) instanceof LinearLayout) {
-                            linearLayout = (LinearLayout) cardView.getChildAt(0);
-                        }
-                    }
-                }
-                if (linearLayout != null) {
-                    linearLayout.addView(buttonLayout);
-                }
+                tvTitle = itemView.findViewById(R.id.tv_title);
+                tvContent = itemView.findViewById(R.id.tv_content);
+                btnRestore = itemView.findViewById(R.id.btn_restore);
+                btnDelete = itemView.findViewById(R.id.btn_delete);
             }
         }
     }

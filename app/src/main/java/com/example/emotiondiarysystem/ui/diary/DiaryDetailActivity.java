@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,30 +15,48 @@ import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.emotiondiarysystem.R;
 import com.example.emotiondiarysystem.bean.Diary;
 import com.example.emotiondiarysystem.manager.DiaryManager;
+import com.example.emotiondiarysystem.ui.adapter.PhotoAdapter;
 import com.example.emotiondiarysystem.ui.base.BaseActivity;
+import com.example.emotiondiarysystem.ui.dialog.TagSelectorDialog;
 import com.example.emotiondiarysystem.utils.SpUtil;
 import com.example.emotiondiarysystem.utils.ThemeColorUtil;
 import com.example.emotiondiarysystem.utils.ToastUtil;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiaryDetailActivity extends BaseActivity implements View.OnClickListener {
 
     private ImageButton btnBack;
     private TextView tvDate;
+    private TextView tvDiaryTitle;
     private TextView tvContent;
     private TextView tvEmotion;
+    private TextView tvWeatherTag;
+    private TextView tvMoodTag;
+    private TextView tvActivityTag;
     private Button btnDelete;
     private Button btnEdit;
     private LinearLayout topBar;
     private View divider;
+    private RecyclerView rvPhotos;
 
     private DiaryManager diaryManager;
     private Diary currentDiary;
+    
+    private String selectedWeather = "";
+    private String selectedMood = "";
+    private String selectedActivity = "";
+    
+    private PhotoAdapter photoAdapter;
+    private List<String> photoPathsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +74,7 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
         setListeners();
         loadDiaryDetail();
         applyFullTheme();
+        setListeners(); // 再次设置监听器，防止主题覆盖
     }
 
     @Override
@@ -62,17 +82,44 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
         super.onResume();
         loadDiaryDetail();
         applyFullTheme();
+        setListeners(); // 重新设置监听器，确保点击事件正常
     }
 
     private void initViews() {
         btnBack = findViewById(R.id.btn_back);
         tvDate = findViewById(R.id.tv_date);
+        tvDiaryTitle = findViewById(R.id.tv_diary_title);
         tvContent = findViewById(R.id.tv_content);
         tvEmotion = findViewById(R.id.tv_emotion);
+        tvWeatherTag = findViewById(R.id.tv_weather_tag);
+        tvMoodTag = findViewById(R.id.tv_mood_tag);
+        tvActivityTag = findViewById(R.id.tv_activity_tag);
         btnDelete = findViewById(R.id.btn_delete);
         btnEdit = findViewById(R.id.btn_edit);
         topBar = findViewById(R.id.top_bar);
         divider = findViewById(R.id.divider);
+        rvPhotos = findViewById(R.id.rv_photos);
+
+        // 设置照片RecyclerView - 编辑模式为false，不显示添加按钮和删除按钮
+        photoAdapter = new PhotoAdapter(photoPathsList, new PhotoAdapter.OnPhotoClickListener() {
+            @Override
+            public void onAddClick() {
+                // 详情页不需要添加
+            }
+
+            @Override
+            public void onPhotoClick(int position) {
+                previewPhoto(position);
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                // 详情页不需要删除
+            }
+        });
+        photoAdapter.setEditMode(false);
+        rvPhotos.setLayoutManager(new GridLayoutManager(this, 3));
+        rvPhotos.setAdapter(photoAdapter);
     }
 
     private void initManagers() {
@@ -83,6 +130,19 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
         btnBack.setOnClickListener(this);
         btnDelete.setOnClickListener(this);
         btnEdit.setOnClickListener(this);
+        
+        tvWeatherTag.setOnClickListener(v -> {
+            ToastUtil.showShort(this, "点击天气标签");
+            showTagSelector("weather");
+        });
+        tvMoodTag.setOnClickListener(v -> {
+            ToastUtil.showShort(this, "点击心情标签");
+            showTagSelector("mood");
+        });
+        tvActivityTag.setOnClickListener(v -> {
+            ToastUtil.showShort(this, "点击活动标签");
+            showTagSelector("activity");
+        });
     }
 
     private void loadDiaryDetail() {
@@ -119,6 +179,14 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
             tvDate.setText(date);
         }
 
+        String title = currentDiary.getTitle();
+        if (!TextUtils.isEmpty(title)) {
+            tvDiaryTitle.setText(title);
+            tvDiaryTitle.setVisibility(View.VISIBLE);
+        } else {
+            tvDiaryTitle.setVisibility(View.GONE);
+        }
+
         tvContent.setText(currentDiary.getContent() != null ? currentDiary.getContent() : "");
 
         String emotion = currentDiary.getEmotionType();
@@ -141,6 +209,45 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
         } else {
             tvEmotion.setText("未知");
         }
+
+        // 从数据库加载已保存的标签
+        String weatherTag = currentDiary.getWeatherTag();
+        String moodTag = currentDiary.getMoodTag();
+        String activityTag = currentDiary.getActivityTag();
+        if (!TextUtils.isEmpty(weatherTag)) {
+            selectedWeather = weatherTag;
+        }
+        if (!TextUtils.isEmpty(moodTag)) {
+            selectedMood = moodTag;
+        }
+        if (!TextUtils.isEmpty(activityTag)) {
+            selectedActivity = activityTag;
+        }
+        
+        // 加载照片路径
+        photoPathsList.clear();
+        String photoPaths = currentDiary.getPhotoPaths();
+        if (!TextUtils.isEmpty(photoPaths)) {
+            String[] paths = photoPaths.split(",");
+            for (String path : paths) {
+                if (!path.trim().isEmpty()) {
+                    photoPathsList.add(path.trim());
+                }
+            }
+        }
+        photoAdapter.notifyDataSetChanged();
+        
+        updateTagDisplay();
+    }
+    
+    private void previewPhoto(int position) {
+        String path = photoPathsList.get(position);
+        File file = new File(path);
+        if (file.exists()) {
+            Intent intent = new Intent(this, PhotoViewActivity.class);
+            intent.putExtra(PhotoViewActivity.EXTRA_PHOTO_PATH, path);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -153,9 +260,6 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
             if (currentDiary != null) {
                 Intent intent = new Intent(this, DiaryEditActivity.class);
                 intent.putExtra("diaryId", currentDiary.getDiaryId());
-                intent.putExtra("content", currentDiary.getContent());
-                intent.putExtra("emotionType", currentDiary.getEmotionType());
-                intent.putExtra("createTime", currentDiary.getCreateTime());
                 startActivity(intent);
             }
         }
@@ -213,5 +317,76 @@ public class DiaryDetailActivity extends BaseActivity implements View.OnClickLis
         drawable.setColor(colors.buttonBackground);
         button.setBackground(drawable);
         button.setTextColor(colors.buttonText);
+    }
+    
+    private void showTagSelector(String tagType) {
+        try {
+            TagSelectorDialog dialog = new TagSelectorDialog(this, tagType, (type, weatherTags, moodTags, activityTags) -> {
+                if (!weatherTags.isEmpty()) {
+                    selectedWeather = String.join(", ", weatherTags);
+                }
+                if (!moodTags.isEmpty()) {
+                    selectedMood = String.join(", ", moodTags);
+                }
+                if (!activityTags.isEmpty()) {
+                    selectedActivity = String.join(", ", activityTags);
+                }
+                updateTagDisplay();
+                // 保存标签到数据库
+                saveTagsToDatabase();
+            });
+            
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUtil.showShort(this, "打开失败: " + e.getMessage());
+        }
+    }
+    
+    private void saveTagsToDatabase() {
+        if (currentDiary != null) {
+            int result = diaryManager.updateDiary(
+                currentDiary.getDiaryId(),
+                currentDiary.getTitle(),
+                currentDiary.getContent(),
+                currentDiary.getEmotionType(),
+                selectedWeather,
+                selectedMood,
+                selectedActivity,
+                currentDiary.getPhotoPaths()
+            );
+            if (result > 0) {
+                // 更新本地对象
+                currentDiary.setWeatherTag(selectedWeather);
+                currentDiary.setMoodTag(selectedMood);
+                currentDiary.setActivityTag(selectedActivity);
+            }
+        }
+    }
+    
+    private void updateTagDisplay() {
+        if (!selectedWeather.isEmpty()) {
+            tvWeatherTag.setText("☀️ " + selectedWeather);
+            tvWeatherTag.setVisibility(View.VISIBLE);
+        } else {
+            tvWeatherTag.setText("☀️ 天气");
+            tvWeatherTag.setVisibility(View.VISIBLE);
+        }
+        
+        if (!selectedMood.isEmpty()) {
+            tvMoodTag.setText("😊 " + selectedMood);
+            tvMoodTag.setVisibility(View.VISIBLE);
+        } else {
+            tvMoodTag.setText("😊 心情");
+            tvMoodTag.setVisibility(View.VISIBLE);
+        }
+        
+        if (!selectedActivity.isEmpty()) {
+            tvActivityTag.setText("📚 " + selectedActivity);
+            tvActivityTag.setVisibility(View.VISIBLE);
+        } else {
+            tvActivityTag.setText("📚 活动");
+            tvActivityTag.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -88,6 +88,78 @@
 
             </LinearLayout>
 
+            <!-- 日记标题 -->
+            <TextView
+                android:id="@+id/tv_diary_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="日记标题"
+                android:textSize="20sp"
+                android:textColor="#2D3748"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- 标签区域 -->
+            <LinearLayout
+                android:id="@+id/tag_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:descendantFocusability="beforeDescendants">
+
+                <TextView
+                    android:id="@+id/tv_weather_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="☀️ 晴天"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:background="@drawable/bg_tag_clickable"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <TextView
+                    android:id="@+id/tv_mood_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="😊 开心"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:background="@drawable/bg_tag_clickable"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <TextView
+                    android:id="@+id/tv_activity_tag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📚 学习"
+                    android:textSize="14sp"
+                    android:textColor="#333333"
+                    android:background="@drawable/bg_tag_clickable"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="6dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+            <!-- 照片显示区域 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+
             <!-- 分割线 -->
             <View
                 android:layout_width="match_parent"

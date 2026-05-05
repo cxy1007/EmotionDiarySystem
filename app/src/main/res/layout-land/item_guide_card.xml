@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="16dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- 日期显示区域 - 统一高度46dp -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:orientation="horizontal"
+            android:gravity="bottom|center_horizontal">
+
+            <!-- 日期数字 -->
+            <TextView
+                android:id="@+id/tv_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="29"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="#7BA7D9"/>
+
+            <!-- 年月 -->
+            <TextView
+                android:id="@+id/tv_year_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2026年4月"
+                android:textSize="16sp"
+                android:textColor="#757575"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="6dp"/>
+
+        </LinearLayout>
+
+        <!-- 分隔线 -->
+        <View
+            android:layout_width="32dp"
+            android:layout_height="2dp"
+            android:background="#E5E7EB"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"/>
+
+        <!-- 引导文案 - 固定高度区域，和日记卡片正文区域一致 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:text="我很喜欢认真记录的你，告诉我今天过得怎么样吧！"
+            android:textSize="18sp"
+            android:textColor="#374151"
+            android:lineSpacingMultiplier="1.6"
+            android:gravity="center"
+            android:maxLines="3"
+            android:ellipsize="end"/>
+
+        <!-- 按钮区域 - 和日记卡片按钮位置对齐 -->
+        <Button
+            android:id="@+id/btn_record_today"
+            android:layout_width="180dp"
+            android:layout_height="48dp"
+            android:text="记录我的今天"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#000000"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

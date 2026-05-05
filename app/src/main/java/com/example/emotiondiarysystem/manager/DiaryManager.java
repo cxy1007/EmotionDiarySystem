@@ -19,13 +19,23 @@ public class DiaryManager {
     }
 
     // 添加日记
-    public long addDiary(int userId, String content, String createTime, String emotionType) {
+    public long addDiary(int userId, String title, String content, String createTime, String emotionType, String weatherTag, String moodTag, String activityTag) {
+        return addDiary(userId, title, content, createTime, emotionType, weatherTag, moodTag, activityTag, null);
+    }
+
+    // 添加日记（带照片）
+    public long addDiary(int userId, String title, String content, String createTime, String emotionType, String weatherTag, String moodTag, String activityTag, String photoPaths) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("userId", userId);
+        values.put("title", title);
         values.put("content", content);
         values.put("createTime", createTime);
         values.put("emotionType", emotionType);
+        values.put("weatherTag", weatherTag);
+        values.put("moodTag", moodTag);
+        values.put("activityTag", activityTag);
+        values.put("photoPaths", photoPaths);
         long id = db.insert("diary", null, values);
         db.close();
         return id;
@@ -43,9 +53,14 @@ public class DiaryManager {
                 Diary diary = new Diary();
                 diary.setDiaryId(cursor.getInt(cursor.getColumnIndexOrThrow("diaryId")));
                 diary.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow("userId")));
+                diary.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
                 diary.setContent(cursor.getString(cursor.getColumnIndexOrThrow("content")));
                 diary.setCreateTime(cursor.getString(cursor.getColumnIndexOrThrow("createTime")));
                 diary.setEmotionType(cursor.getString(cursor.getColumnIndexOrThrow("emotionType")));
+                diary.setWeatherTag(cursor.getString(cursor.getColumnIndexOrThrow("weatherTag")));
+                diary.setMoodTag(cursor.getString(cursor.getColumnIndexOrThrow("moodTag")));
+                diary.setActivityTag(cursor.getString(cursor.getColumnIndexOrThrow("activityTag")));
+                diary.setPhotoPaths(cursor.getString(cursor.getColumnIndexOrThrow("photoPaths")));
                 diary.setIsDeleted(0);
                 list.add(diary);
             } while (cursor.moveToNext());
@@ -95,9 +110,14 @@ public class DiaryManager {
                 Diary diary = new Diary();
                 diary.setDiaryId(cursor.getInt(cursor.getColumnIndexOrThrow("diaryId")));
                 diary.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow("userId")));
+                diary.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
                 diary.setContent(cursor.getString(cursor.getColumnIndexOrThrow("content")));
                 diary.setCreateTime(cursor.getString(cursor.getColumnIndexOrThrow("createTime")));
                 diary.setEmotionType(cursor.getString(cursor.getColumnIndexOrThrow("emotionType")));
+                diary.setWeatherTag(cursor.getString(cursor.getColumnIndexOrThrow("weatherTag")));
+                diary.setMoodTag(cursor.getString(cursor.getColumnIndexOrThrow("moodTag")));
+                diary.setActivityTag(cursor.getString(cursor.getColumnIndexOrThrow("activityTag")));
+                diary.setPhotoPaths(cursor.getString(cursor.getColumnIndexOrThrow("photoPaths")));
                 diary.setIsDeleted(1);
                 list.add(diary);
             } while (cursor.moveToNext());
@@ -107,14 +127,50 @@ public class DiaryManager {
         return list;
     }
 
-    // 修改日记
-    public int updateDiary(int diaryId, String content, String emotionType) {
+    // 更新日记
+    public int updateDiary(int diaryId, String title, String content, String emotionType, String weatherTag, String moodTag, String activityTag) {
+        return updateDiary(diaryId, title, content, emotionType, weatherTag, moodTag, activityTag, null);
+    }
+
+    // 更新日记（带照片）
+    public int updateDiary(int diaryId, String title, String content, String emotionType, String weatherTag, String moodTag, String activityTag, String photoPaths) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("title", title);
         values.put("content", content);
         values.put("emotionType", emotionType);
+        values.put("weatherTag", weatherTag);
+        values.put("moodTag", moodTag);
+        values.put("activityTag", activityTag);
+        values.put("photoPaths", photoPaths);
         int rows = db.update("diary", values, "diaryId=?", new String[]{String.valueOf(diaryId)});
         db.close();
         return rows;
+    }
+
+    // 根据ID查询日记
+    public Diary getDiaryById(int diaryId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.query("diary", null, "diaryId=?", new String[]{String.valueOf(diaryId)},
+                null, null, null);
+
+        Diary diary = null;
+        if (cursor.moveToFirst()) {
+            diary = new Diary();
+            diary.setDiaryId(cursor.getInt(cursor.getColumnIndexOrThrow("diaryId")));
+            diary.setUserId(cursor.getInt(cursor.getColumnIndexOrThrow("userId")));
+            diary.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
+            diary.setContent(cursor.getString(cursor.getColumnIndexOrThrow("content")));
+            diary.setCreateTime(cursor.getString(cursor.getColumnIndexOrThrow("createTime")));
+            diary.setEmotionType(cursor.getString(cursor.getColumnIndexOrThrow("emotionType")));
+            diary.setWeatherTag(cursor.getString(cursor.getColumnIndexOrThrow("weatherTag")));
+            diary.setMoodTag(cursor.getString(cursor.getColumnIndexOrThrow("moodTag")));
+            diary.setActivityTag(cursor.getString(cursor.getColumnIndexOrThrow("activityTag")));
+            diary.setPhotoPaths(cursor.getString(cursor.getColumnIndexOrThrow("photoPaths")));
+            diary.setIsDeleted(cursor.getInt(cursor.getColumnIndexOrThrow("is_deleted")));
+        }
+        cursor.close();
+        db.close();
+        return diary;
     }
 }

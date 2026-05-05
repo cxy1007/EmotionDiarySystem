@@ -73,6 +73,10 @@
         <activity
             android:name=".ui.user.UserInfoEditActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.diary.PhotoViewActivity"
+            android:exported="false"
+            android:screenOrientation="unspecified" />
 
         <!-- FileProvider配置 -->
         <provider

@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:background="#F7FAFC">
 
-        <!-- 顶部导航栏 -->
+        <!-- 顶部导航栏（带月份切换） -->
         <LinearLayout
             android:id="@+id/top_bar"
             android:layout_width="match_parent"
@@ -20,18 +20,58 @@
             android:paddingHorizontal="16dp"
             android:background="#FFFFFF">
 
+            <ImageButton
+                android:id="@+id/btn_prev_month"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/arrow_up_float"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:rotation="-90"
+                android:contentDescription="上月"/>
+
             <TextView
+                android:id="@+id/tv_month_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="情感统计"
-                android:textSize="20sp"
+                android:gravity="center"
+                android:text="2024年5月"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#2D3748"/>
+
+            <ImageButton
+                android:id="@+id/btn_next_month"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/arrow_up_float"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:rotation="90"
+                android:contentDescription="下月"/>
         </LinearLayout>
 
-        <!-- 统计概览卡片 -->
+        <!-- 空状态提示 -->
         <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="64dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="暂无情感数据，快去记录第一篇日记吧"
+                android:textSize="16sp"
+                android:textColor="#718096"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <!-- 统计概览卡片（保持不变） -->
+        <LinearLayout
+            android:id="@+id/layout_stats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -155,7 +195,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 情感分析结果 -->
+        <!-- 情感分布环形图（替换原有统计图） -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,31 +206,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:background="#F7FAFC"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:elevation="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="情感分析结果"
-                    android:textSize="16sp"
+                    android:text="情感分布图"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#2D3748"
                     android:layout_marginBottom="10dp"/>
 
-                <TextView
-                    android:id="@+id/tv_emotion_analysis_result"
+                <com.example.emotiondiarysystem.ui.emotion.EmotionRingChartView
+                    android:id="@+id/emotion_ring_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="暂无分析结果，请先记录几篇日记"
-                    android:textSize="14sp"
-                    android:textColor="#718096"
-                    android:lineSpacingExtra="4dp"/>
+                    android:layout_height="280dp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 周情感统计图 -->
+        <!-- 情绪关键词云（替换原有趋势图） -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -201,78 +238,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
+                android:background="#F7FAFC"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:elevation="2dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="周情感统计图"
-                    android:textSize="16sp"
+                    android:text="我的高频情绪词"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#2D3748"
                     android:layout_marginBottom="10dp"/>
 
-                <com.example.emotiondiarysystem.ui.emotion.WeekBarChartView
-                    android:id="@+id/week_bar_chart"
+                <com.example.emotiondiarysystem.ui.emotion.EmotionKeywordCloudView
+                    android:id="@+id/emotion_keyword_cloud"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"/>
-
-                <TextView
-                    android:id="@+id/tv_week_no_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:gravity="center"
-                    android:text="本周暂无日记数据"
-                    android:textSize="14sp"
-                    android:textColor="#A0AEC0"
-                    android:visibility="gone"/>
+                    android:layout_height="200dp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 月情感趋势图 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="月情感趋势图"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:textColor="#2D3748"
-                    android:layout_marginBottom="10dp"/>
-
-                <com.example.emotiondiarysystem.ui.emotion.MonthLineChartView
-                    android:id="@+id/month_line_chart"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"/>
-
-                <TextView
-                    android:id="@+id/tv_month_no_data"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:gravity="center"
-                    android:text="本月暂无日记数据"
-                    android:textSize="14sp"
-                    android:textColor="#A0AEC0"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 心情语录推荐 -->
+        <!-- 心情语录推荐（保持不变） -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -326,7 +313,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 本周情感趋势 + 情绪建议 -->
+        <!-- 本周情感趋势 + 情绪建议（保持不变） -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

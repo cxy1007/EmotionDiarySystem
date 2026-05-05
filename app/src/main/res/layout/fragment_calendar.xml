@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <!-- 顶部：年月导航栏 -->
+    <RelativeLayout
+        android:id="@+id/layout_year_month"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp">
+
+        <TextView
+            android:id="@+id/tv_year_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="2026年4月"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#2D3748"/>
+
+        <ImageView
+            android:id="@+id/iv_dropdown"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/tv_year_month"
+            android:layout_marginStart="8dp"
+            android:src="@android:drawable/arrow_down_float"
+            android:contentDescription="选择年月"/>
+
+        <ImageView
+            android:id="@+id/iv_add"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_input_add"
+            android:contentDescription="新建日记"/>
+
+    </RelativeLayout>
+
+    <!-- 星期头部栏 -->
+    <LinearLayout
+        android:id="@+id/layout_week_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="日"
+            android:textSize="14sp"
+            android:textColor="#4ECDC4"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="一"
+            android:textSize="14sp"
+            android:textColor="#9CA3AF"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="二"
+            android:textSize="14sp"
+            android:textColor="#9CA3AF"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="三"
+            android:textSize="14sp"
+            android:textColor="#9CA3AF"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="四"
+            android:textSize="14sp"
+            android:textColor="#9CA3AF"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="五"
+            android:textSize="14sp"
+            android:textColor="#9CA3AF"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="六"
+            android:textSize="14sp"
+            android:textColor="#4ECDC4"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+    <!-- 日历网格 -->
+    <GridView
+        android:id="@+id/grid_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="7"
+        android:horizontalSpacing="4dp"
+        android:verticalSpacing="4dp"
+        android:stretchMode="columnWidth"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 选中日期提示 -->
+    <TextView
+        android:id="@+id/tv_selected_date_hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选中日期后点击右上角+，从所选日子开始写"
+        android:textSize="12sp"
+        android:textColor="#9CA3AF"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 日记列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_diary_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#F9FAFB"/>
+
+</LinearLayout>

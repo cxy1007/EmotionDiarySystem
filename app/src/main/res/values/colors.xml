@@ -5,4 +5,7 @@
     <color name="emotion_positive">#FF276749</color>
     <color name="emotion_neutral">#FF718096</color>
     <color name="emotion_negative">#FF702459</color>
+    <color name="text_primary">#2D3748</color>
+    <color name="text_secondary">#9CA3AF</color>
+    <color name="calendar_selected">#4ECDC4</color>
 </resources>
