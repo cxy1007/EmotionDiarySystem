@@ -46,7 +46,7 @@ public class DiaryManager {
         List<Diary> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("diary", null, "userId=? AND is_deleted=0", new String[]{String.valueOf(userId)},
-                null, null, "diaryId desc");
+                null, null, "createTime desc, diaryId desc");
 
         if (cursor.moveToFirst()) {
             do {
@@ -103,7 +103,7 @@ public class DiaryManager {
         List<Diary> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.query("diary", null, "userId=? AND is_deleted=1", new String[]{String.valueOf(userId)},
-                null, null, "diaryId desc");
+                null, null, "createTime desc, diaryId desc");
 
         if (cursor.moveToFirst()) {
             do {
