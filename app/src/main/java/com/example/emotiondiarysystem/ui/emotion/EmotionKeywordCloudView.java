@@ -1,6 +1,5 @@
 package com.example.emotiondiarysystem.ui.emotion;
 
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -10,18 +9,18 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import com.example.emotiondiarysystem.manager.EmotionStatManager;
+
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 public class EmotionKeywordCloudView extends View {
 
-    private static final int COLOR_POSITIVE = 0xFF48BB78;
+    private static final int COLOR_POSITIVE = 0xFF276749;
     private static final int COLOR_NEUTRAL = 0xFF718096;
-    private static final int COLOR_NEGATIVE = 0xFFF56565;
+    private static final int COLOR_NEGATIVE = 0xFF702459;
 
     private static class Keyword {
         String word;
@@ -36,9 +35,10 @@ public class EmotionKeywordCloudView extends View {
 
     private List<Keyword> keywords = new ArrayList<>();
     private Paint textPaint;
-    private Random random = new Random();
+    private Random random = new Random(12345);
     private ValueAnimator animator;
     private float animationProgress = 0f;
+    private boolean positionsCalculated = false;
 
     public EmotionKeywordCloudView(Context context) {
         super(context);
@@ -62,6 +62,7 @@ public class EmotionKeywordCloudView extends View {
 
     public void setKeywords(Map<String, Integer> keywordMap) {
         keywords.clear();
+        positionsCalculated = false;
 
         if (keywordMap == null || keywordMap.isEmpty()) {
             invalidate();
@@ -81,7 +82,7 @@ public class EmotionKeywordCloudView extends View {
             keyword.count = entry.getValue();
 
             float ratio = (keyword.count - minCount) / (float) Math.max(1, maxCount - minCount);
-            keyword.size = dpToPx(14) + ratio * dpToPx(22);
+            keyword.size = dpToPx(12) + ratio * dpToPx(20);
 
             int colorIndex = i % 3;
             if (colorIndex == 0) {
@@ -92,7 +93,45 @@ public class EmotionKeywordCloudView extends View {
                 keyword.color = COLOR_NEGATIVE;
             }
 
-            keyword.rotation = (random.nextFloat() - 0.5f) * 30f;
+            keyword.rotation = (random.nextFloat() - 0.5f) * 15f;
+            keyword.bounds = new Rect();
+
+            keywords.add(keyword);
+        }
+
+        startAnimation();
+    }
+
+    public void setWordDataList(List<EmotionStatManager.WordData> wordDataList) {
+        keywords.clear();
+        positionsCalculated = false;
+
+        if (wordDataList == null || wordDataList.isEmpty()) {
+            invalidate();
+            return;
+        }
+
+        int maxCount = wordDataList.get(0).count;
+        int minCount = wordDataList.get(wordDataList.size() - 1).count;
+
+        for (int i = 0; i < wordDataList.size(); i++) {
+            EmotionStatManager.WordData wordData = wordDataList.get(i);
+            Keyword keyword = new Keyword();
+            keyword.word = wordData.word;
+            keyword.count = wordData.count;
+
+            float ratio = (keyword.count - minCount) / (float) Math.max(1, maxCount - minCount);
+            keyword.size = dpToPx(12) + ratio * dpToPx(20);
+
+            if (wordData.emotionType == 1) {
+                keyword.color = COLOR_POSITIVE;
+            } else if (wordData.emotionType == 2) {
+                keyword.color = COLOR_NEGATIVE;
+            } else {
+                keyword.color = COLOR_NEUTRAL;
+            }
+
+            keyword.rotation = (random.nextFloat() - 0.5f) * 12f;
             keyword.bounds = new Rect();
 
             keywords.add(keyword);
@@ -108,7 +147,7 @@ public class EmotionKeywordCloudView extends View {
 
         animationProgress = 0f;
         animator = ValueAnimator.ofFloat(0f, 1f);
-        animator.setDuration(1000);
+        animator.setDuration(800);
         animator.setInterpolator(new DecelerateInterpolator());
         animator.addUpdateListener(animation -> {
             animationProgress = (float) animation.getAnimatedValue();
@@ -125,69 +164,24 @@ public class EmotionKeywordCloudView extends View {
 
         int width = getWidth();
         int height = getHeight();
-        int padding = dpToPx(16);
-        int centerX = width / 2;
-        int centerY = height / 2;
+        int padding = dpToPx(12);
 
-        List<Keyword> placed = new ArrayList<>();
-
-        for (int i = 0; i < keywords.size(); i++) {
-            Keyword keyword = keywords.get(i);
-
-            textPaint.setTextSize(keyword.size);
-            textPaint.getTextBounds(keyword.word, 0, keyword.word.length(), keyword.bounds);
-
-            boolean placedSuccessfully = false;
-            int attempts = 0;
-            float bestX = 0, bestY = 0;
-            float minOverlap = Float.MAX_VALUE;
-
-            while (!placedSuccessfully && attempts < 200) {
-                float t = (float) attempts / 200f;
-                float radius = t * Math.min(width, height) / 2.5f;
-                float angle = (float) (random.nextDouble() * Math.PI * 2);
-
-                float x = centerX + radius * (float) Math.cos(angle);
-                float y = centerY + radius * (float) Math.sin(angle);
-
-                x = Math.max(padding + keyword.bounds.width() / 2f, Math.min(width - padding - keyword.bounds.width() / 2f, x));
-                y = Math.max(padding + keyword.bounds.height() / 2f, Math.min(height - padding - keyword.bounds.height() / 2f, y));
-
-                float overlap = calculateOverlap(keyword, x, y, placed);
-                if (overlap < minOverlap) {
-                    minOverlap = overlap;
-                    bestX = x;
-                    bestY = y;
-                }
-
-                if (overlap == 0) {
-                    keyword.x = x;
-                    keyword.y = y;
-                    placed.add(keyword);
-                    placedSuccessfully = true;
-                }
-
-                attempts++;
-            }
-
-            if (!placedSuccessfully) {
-                keyword.x = bestX;
-                keyword.y = bestY;
-                placed.add(keyword);
-            }
+        if (!positionsCalculated) {
+            calculatePositions(width, height, padding);
+            positionsCalculated = true;
         }
 
         for (int i = 0; i < keywords.size(); i++) {
             Keyword keyword = keywords.get(i);
-            float delay = i * 0.05f;
-            float progress = Math.max(0, Math.min(1, (animationProgress - delay) / 0.5f));
+            float delay = i * 0.04f;
+            float progress = Math.max(0, Math.min(1, (animationProgress - delay) / 0.4f));
 
             if (progress > 0) {
                 canvas.save();
                 canvas.translate(keyword.x, keyword.y);
                 canvas.rotate(keyword.rotation);
 
-                float animatedSize = keyword.size * (0.5f + 0.5f * progress);
+                float animatedSize = keyword.size * (0.6f + 0.4f * progress);
                 textPaint.setTextSize(animatedSize);
                 textPaint.setColor(keyword.color);
                 textPaint.setAlpha((int) (255 * progress));
@@ -198,21 +192,73 @@ public class EmotionKeywordCloudView extends View {
         }
     }
 
+    private void calculatePositions(int width, int height, int padding) {
+        List<Keyword> placed = new ArrayList<>();
+
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+
+        for (int i = 0; i < keywords.size(); i++) {
+            Keyword keyword = keywords.get(i);
+
+            textPaint.setTextSize(keyword.size);
+            textPaint.getTextBounds(keyword.word, 0, keyword.word.length(), keyword.bounds);
+
+            float basePriority = 1f - (float) i / keywords.size();
+
+            float bestX = 0, bestY = 0;
+            float minOverlap = Float.MAX_VALUE;
+            float bestDistScore = Float.MAX_VALUE;
+
+            for (int attempt = 0; attempt < 300; attempt++) {
+                float angle = (float) (random.nextDouble() * Math.PI * 2);
+                float t = (float) attempt / 300f;
+                float radius = t * Math.min(width, height) / 3f * (0.6f + 0.4f * basePriority);
+
+                float x = centerX + radius * (float) Math.cos(angle);
+                float y = centerY + radius * (float) Math.sin(angle);
+
+                x = Math.max(padding + keyword.bounds.width() / 2f, Math.min(width - padding - keyword.bounds.width() / 2f, x));
+                y = Math.max(padding + keyword.bounds.height() / 2f, Math.min(height - padding - keyword.bounds.height() / 2f, y));
+
+                float overlap = calculateOverlap(keyword, x, y, placed);
+                float distFromCenter = (float) Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+
+                float score = overlap * 1000 + distFromCenter * (1f - basePriority);
+
+                if (score < minOverlap * 1000 + bestDistScore * (1f - basePriority)) {
+                    minOverlap = overlap;
+                    bestDistScore = distFromCenter;
+                    bestX = x;
+                    bestY = y;
+                }
+
+                if (overlap == 0) {
+                    break;
+                }
+            }
+
+            keyword.x = bestX;
+            keyword.y = bestY;
+            placed.add(keyword);
+        }
+    }
+
     private float calculateOverlap(Keyword keyword, float x, float y, List<Keyword> placed) {
         float overlap = 0;
         Rect rect1 = new Rect(
-            (int) (x - keyword.bounds.width() / 2f),
-            (int) (y - keyword.bounds.height() / 2f),
-            (int) (x + keyword.bounds.width() / 2f),
-            (int) (y + keyword.bounds.height() / 2f)
+            (int) (x - keyword.bounds.width() / 2f - dpToPx(4)),
+            (int) (y - keyword.bounds.height() / 2f - dpToPx(2)),
+            (int) (x + keyword.bounds.width() / 2f + dpToPx(4)),
+            (int) (y + keyword.bounds.height() / 2f + dpToPx(2))
         );
 
         for (Keyword placedKeyword : placed) {
             Rect rect2 = new Rect(
-                (int) (placedKeyword.x - placedKeyword.bounds.width() / 2f),
-                (int) (placedKeyword.y - placedKeyword.bounds.height() / 2f),
-                (int) (placedKeyword.x + placedKeyword.bounds.width() / 2f),
-                (int) (placedKeyword.y + placedKeyword.bounds.height() / 2f)
+                (int) (placedKeyword.x - placedKeyword.bounds.width() / 2f - dpToPx(4)),
+                (int) (placedKeyword.y - placedKeyword.bounds.height() / 2f - dpToPx(2)),
+                (int) (placedKeyword.x + placedKeyword.bounds.width() / 2f + dpToPx(4)),
+                (int) (placedKeyword.y + placedKeyword.bounds.height() / 2f + dpToPx(2))
             );
 
             if (Rect.intersects(rect1, rect2)) {

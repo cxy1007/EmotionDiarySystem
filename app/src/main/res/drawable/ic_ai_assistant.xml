@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+    
+    <!-- 浅蓝色对话气泡主体 -->
+    <path
+        android:fillColor="#A5D6FF"
+        android:pathData="M8,12h40c4.4,0 8,3.6 8,8v24c0,4.4 -3.6,8 -8,8h-23l-11,9v-9h-6c-4.4,0 -8,-3.6 -8,-8v-24c0,-4.4 3.6,-8 8,-8z" />
+    
+    <!-- 浅粉色爱心 - 居中放置 -->
+    <path
+        android:fillColor="#FFD1DC"
+        android:pathData="M32,22c-4,-4 -10,-4 -14,0c-2.2,2.2 -3.2,5.1 -2.8,7.9c0.4,2.8 1.7,5.4 4,7.3l12.8,12l12.8,-12c2.3,-1.9 3.6,-4.5 4,-7.3c0.4,-2.8 -0.6,-5.7 -2.8,-7.9c-4,-4 -10,-4 -14,0z" />
+    
+</vector>

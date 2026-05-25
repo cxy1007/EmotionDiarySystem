@@ -44,4 +44,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    
+    // 网络请求和JSON解析库
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.alibaba:fastjson:1.2.83")
 }

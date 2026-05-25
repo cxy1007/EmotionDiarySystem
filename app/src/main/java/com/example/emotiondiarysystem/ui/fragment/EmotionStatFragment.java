@@ -154,7 +154,7 @@ public class EmotionStatFragment extends Fragment {
                 statData.dominantEmotion
             );
 
-            emotionKeywordCloud.setKeywords(statData.keywordMap);
+            emotionKeywordCloud.setWordDataList(statData.wordDataList);
 
             updateAdvice(statData.totalCount, statData.positiveCount, statData.neutralCount, statData.negativeCount);
             loadMoodQuote(statData.positiveCount, statData.neutralCount, statData.negativeCount);
