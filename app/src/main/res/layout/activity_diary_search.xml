@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="搜索日记标题/内容/日期"
+                android:hint="搜索日记标题/内容/日期/标签"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textSize="14sp"

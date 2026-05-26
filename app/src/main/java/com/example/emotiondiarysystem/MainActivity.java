@@ -11,10 +11,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 跳转到真正的日记主页
+        // 跳转到日记主页
         Intent intent = new Intent(this, DiaryHomeActivity.class);
         startActivity(intent);
         // 关闭启动页，用户按返回键不会回到空壳
         finish();
     }
 }
+

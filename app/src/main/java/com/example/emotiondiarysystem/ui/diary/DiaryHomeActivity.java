@@ -10,19 +10,24 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.emotiondiarysystem.R;
+import com.example.emotiondiarysystem.ui.ai.AiAssistantActivity;
 import com.example.emotiondiarysystem.ui.base.BaseActivity;
+import com.example.emotiondiarysystem.ui.fragment.CalendarFragment;
 import com.example.emotiondiarysystem.ui.fragment.DiaryListFragment;
 import com.example.emotiondiarysystem.ui.fragment.EmotionStatFragment;
 import com.example.emotiondiarysystem.ui.fragment.UserCenterFragment;
 import com.example.emotiondiarysystem.utils.ThemeColorUtil;
+import com.example.emotiondiarysystem.widget.AiFloatButton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class DiaryHomeActivity extends BaseActivity {
 
     private FrameLayout fragmentContainer;
     private BottomNavigationView bottomNavigation;
+    private AiFloatButton aiFloatButton;
 
     private DiaryListFragment diaryListFragment;
+    private CalendarFragment calendarFragment;
     private EmotionStatFragment emotionStatFragment;
     private UserCenterFragment userCenterFragment;
     private Fragment currentFragment;
@@ -34,6 +39,7 @@ public class DiaryHomeActivity extends BaseActivity {
 
         initViews();
         initFragments();
+        initAiFloatButton();
         setListeners();
         applyFullTheme();
 
@@ -41,6 +47,20 @@ public class DiaryHomeActivity extends BaseActivity {
             showFragment(diaryListFragment);
             bottomNavigation.setSelectedItemId(R.id.nav_diary);
         }
+    }
+
+    private void initAiFloatButton() {
+        aiFloatButton = new AiFloatButton(this);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        ViewGroup rootView = findViewById(android.R.id.content);
+        rootView.addView(aiFloatButton, params);
+
+        aiFloatButton.setOnFloatButtonClickListener(() -> {
+            AiAssistantActivity.startActivity(DiaryHomeActivity.this);
+        });
     }
 
     @Override
@@ -56,6 +76,7 @@ public class DiaryHomeActivity extends BaseActivity {
 
     private void initFragments() {
         diaryListFragment = new DiaryListFragment();
+        calendarFragment = new CalendarFragment();
         emotionStatFragment = new EmotionStatFragment();
         userCenterFragment = new UserCenterFragment();
     }
@@ -65,6 +86,9 @@ public class DiaryHomeActivity extends BaseActivity {
             int itemId = item.getItemId();
             if (itemId == R.id.nav_diary) {
                 showFragment(diaryListFragment);
+                return true;
+            } else if (itemId == R.id.nav_calendar) {
+                showFragment(calendarFragment);
                 return true;
             } else if (itemId == R.id.nav_emotion) {
                 showFragment(emotionStatFragment);

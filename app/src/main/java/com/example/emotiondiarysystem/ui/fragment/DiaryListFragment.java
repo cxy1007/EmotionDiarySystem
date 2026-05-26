@@ -45,7 +45,7 @@ public class DiaryListFragment extends Fragment {
 
     private DiaryManager diaryManager;
     private List<Diary> diaryList = new ArrayList<>();
-    private DiaryAdapter adapter;
+    private MooDiaryAdapter adapter;
 
     // 心情语录库
     private static final String[] QUOTES = {
@@ -118,23 +118,33 @@ public class DiaryListFragment extends Fragment {
     }
 
     private void setupRecyclerView() {
-        adapter = new DiaryAdapter(diaryList, new DiaryAdapter.OnDiaryClickListener() {
+        adapter = new MooDiaryAdapter(diaryList, new MooDiaryAdapter.OnDiaryActionListener() {
             @Override
-            public void onDiaryClick(Diary diary) {
-                Intent intent = new Intent(requireContext(), DiaryDetailActivity.class);
+            public void onWriteDiaryClick() {
+                // 点击引导卡片的"记录我的今天"按钮
+                Intent intent = new Intent(requireContext(), DiaryEditActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDiaryClick(Diary diary, int position) {
+                // 点击日记卡片，跳转到编辑页并回填内容
+                Intent intent = new Intent(requireContext(), DiaryEditActivity.class);
                 intent.putExtra("diaryId", diary.getDiaryId());
                 startActivity(intent);
             }
         });
-        recyclerDiary.setLayoutManager(new LinearLayoutManager(requireContext()));
+        // 横向滚动布局管理器
+        LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerDiary.setLayoutManager(layoutManager);
         recyclerDiary.setAdapter(adapter);
     }
 
     private void setListeners() {
-        btnWriteDiary.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), DiaryEditActivity.class);
-            startActivity(intent);
-        });
+        // 隐藏底部写日记按钮（引导卡片内已有）
+        if (btnWriteDiary != null) {
+            btnWriteDiary.setVisibility(View.GONE);
+        }
 
         btnSearch.setOnClickListener(v -> {
             startActivity(new Intent(requireContext(), com.example.emotiondiarysystem.ui.diary.DiarySearchActivity.class));
@@ -159,11 +169,9 @@ public class DiaryListFragment extends Fragment {
     }
 
     private void updateEmptyState() {
-        if (diaryList == null || diaryList.isEmpty()) {
-            recyclerDiary.setVisibility(View.GONE);
-            layoutEmpty.setVisibility(View.VISIBLE);
-        } else {
-            recyclerDiary.setVisibility(View.VISIBLE);
+        // 现在有引导卡片，始终显示RecyclerView，不需要空状态布局
+        recyclerDiary.setVisibility(View.VISIBLE);
+        if (layoutEmpty != null) {
             layoutEmpty.setVisibility(View.GONE);
         }
     }
@@ -205,87 +213,5 @@ public class DiaryListFragment extends Fragment {
 
         // 递归处理所有子视图的浅色背景
         ThemeColorUtil.applyDarkModeRecursive(getView(), colors, isDark);
-    }
-
-    public static class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder> {
-
-        private List<Diary> list;
-        private OnDiaryClickListener listener;
-
-        public interface OnDiaryClickListener {
-            void onDiaryClick(Diary diary);
-        }
-
-        public DiaryAdapter(List<Diary> list, OnDiaryClickListener listener) {
-            this.list = list;
-            this.listener = listener;
-        }
-
-        public void updateData(List<Diary> newList) {
-            this.list = newList;
-            notifyDataSetChanged();
-        }
-
-        @NonNull
-        @Override
-        public DiaryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diary_card, parent, false);
-            return new DiaryViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull DiaryViewHolder holder, int position) {
-            Diary diary = list.get(position);
-            final OnDiaryClickListener capturedListener = listener;
-            holder.bind(diary, capturedListener);
-        }
-
-        @Override
-        public int getItemCount() {
-            return list != null ? list.size() : 0;
-        }
-
-        static class DiaryViewHolder extends RecyclerView.ViewHolder {
-            private TextView tvDate;
-            private TextView tvContent;
-            private TextView tvEmotion;
-
-            public DiaryViewHolder(@NonNull View itemView) {
-                super(itemView);
-                tvDate = itemView.findViewById(R.id.tv_date);
-                tvContent = itemView.findViewById(R.id.tv_content);
-                tvEmotion = itemView.findViewById(R.id.tv_emotion);
-            }
-
-            public void bind(Diary diary, OnDiaryClickListener listener) {
-                String date = diary.getCreateTime();
-                if (date != null && date.length() >= 10) {
-                    tvDate.setText(date.substring(0, 10));
-                } else {
-                    tvDate.setText(date);
-                }
-
-                tvContent.setText(diary.getContent() != null ? diary.getContent() : "");
-
-                String emotion = diary.getEmotionType();
-                if (emotion != null) {
-                    tvEmotion.setText(emotion);
-                    switch (emotion) {
-                        case "积极": tvEmotion.setBackgroundColor(0xFF48BB78); break;
-                        case "中性": tvEmotion.setBackgroundColor(0xFFECC94B); break;
-                        case "消极": tvEmotion.setBackgroundColor(0xFFF56565); break;
-                        default: tvEmotion.setBackgroundColor(0xFF888888); break;
-                    }
-                } else {
-                    tvEmotion.setText("未知");
-                }
-
-                itemView.setOnClickListener(v -> {
-                    if (listener != null) {
-                        listener.onDiaryClick(diary);
-                    }
-                });
-            }
-        }
     }
 }

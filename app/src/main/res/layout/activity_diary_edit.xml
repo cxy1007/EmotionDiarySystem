@@ -1,148 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F7FAFC"
+    android:background="#FFFFFF"
     android:fitsSystemWindows="true">
 
     <!-- 顶部导航栏 -->
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="8dp">
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp">
 
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_back"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="返回"/>
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/layout_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="写日记"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#2D3748"
-            android:gravity="center"
-            android:layout_marginRight="48dp"/>
+            android:layout_centerInParent="true"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="03"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#333333"/>
+
+            <TextView
+                android:id="@+id/tv_year_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2026年05月"
+                android:textSize="14sp"
+                android:textColor="#999999"
+                android:layout_marginStart="8dp"/>
+
+            <ImageView
+                android:id="@+id/iv_date_dropdown"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="4dp"
+                android:src="@android:drawable/arrow_down_float"
+                android:contentDescription="选择日期"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/iv_delete"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_close"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="删除"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageButton
+                android:id="@+id/iv_save"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_check"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="保存"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E2E8F0"/>
+        android:background="#F5F5F5"/>
 
-    <!-- 日期显示 -->
-    <TextView
-        android:id="@+id/tv_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="2026-04-14"
-        android:textSize="14sp"
-        android:textColor="#888888"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"/>
-
-    <!-- 日记内容输入 -->
+    <!-- 内容区域 -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:fillViewport="true">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="今天发生了什么？记录一下吧..."
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="#E2E8F0"
-            app:hintTextColor="#888888">
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <!-- 照片网格 -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_photos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:nestedScrollingEnabled="false"/>
+
+            <!-- 日记标题输入框 -->
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="给这篇日记起个标题吧..."
+                android:textSize="20sp"
+                android:textColor="#333333"
+                android:textColorHint="#999999"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="text"/>
+
+            <!-- 标签选择栏 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/btn_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="天气"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:background="@drawable/bg_tag_outline"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="8dp"/>
+
+                <TextView
+                    android:id="@+id/btn_mood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="心情"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:background="@drawable/bg_tag_outline"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="8dp"
+                    android:layout_marginHorizontal="16dp"/>
+
+                <TextView
+                    android:id="@+id/btn_activity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="活动"
+                    android:textSize="14sp"
+                    android:textColor="#999999"
+                    android:background="@drawable/bg_tag_outline"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="8dp"/>
+
+            </LinearLayout>
+
+            <!-- 正文输入框 -->
+            <EditText
                 android:id="@+id/et_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="200dp"
-                android:inputType="textMultiLine|textCapSentences"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp"
+                android:hint="我很喜欢认真记录的你，告诉我今天过得怎么样吧！\n你可以用图片/文字和语音记录今天。\n\n点击编辑菜单展开更多功能，支持背景/字体/排版修改。\n如有重要任务，添加待办事项，列好清单才能有条不紊。"
+                android:textSize="18sp"
+                android:textColor="#333333"
+                android:textColorHint="#BBBBBB"
+                android:lineSpacingMultiplier="1.6"
+                android:background="@null"
                 android:gravity="top"
-                android:textSize="16sp"
-                android:textColor="#2D3748"
-                android:padding="16dp"/>
+                android:inputType="textMultiLine|textCapSentences"
+                android:minHeight="300dp"/>
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
     </ScrollView>
 
-    <!-- 情感分析结果区域 -->
-    <LinearLayout
-        android:id="@+id/layout_emotion_result"
+    <!-- 情感分析提示文字 -->
+    <TextView
+        android:id="@+id/tv_emotion_hint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:background="#F7FAFC"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="情感分析："
-            android:textSize="14sp"
-            android:textColor="#888888"/>
-
-        <TextView
-            android:id="@+id/tv_emotion_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="积极"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="#48BB78"/>
-
-    </LinearLayout>
-
-    <!-- 底部按钮 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
-
-        <Button
-            android:id="@+id/btn_analyze"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="分析情感"
-            android:textSize="14sp"
-            android:textColor="#2D3748"
-            android:backgroundTint="#E2E8F0"
-            android:layout_marginRight="8dp"/>
-
-        <Button
-            android:id="@+id/btn_save"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:text="保存日记"
-            android:textSize="14sp"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#2D3748"
-            android:layout_marginLeft="8dp"/>
-
-    </LinearLayout>
+        android:text="情感分析：中性"
+        android:textSize="12sp"
+        android:textColor="#BBBBBB"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:background="#FFFFFF"/>
 
 </LinearLayout>

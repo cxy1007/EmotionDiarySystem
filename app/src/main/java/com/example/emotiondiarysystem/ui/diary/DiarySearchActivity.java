@@ -1,5 +1,6 @@
 package com.example.emotiondiarysystem.ui.diary;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import com.example.emotiondiarysystem.manager.DiaryManager;
 import com.example.emotiondiarysystem.ui.base.BaseActivity;
 import com.example.emotiondiarysystem.utils.SpUtil;
 import com.example.emotiondiarysystem.utils.ThemeColorUtil;
+import com.example.emotiondiarysystem.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,9 @@ public class DiarySearchActivity extends BaseActivity implements View.OnClickLis
         initManagers();
         setListeners();
         applyFullTheme();
+        
+        // 自动聚焦搜索框
+        etSearch.requestFocus();
     }
 
     private void initViews() {
@@ -128,22 +133,44 @@ public class DiarySearchActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
+        String lowerKeyword = keyword.toLowerCase();
+
         // 搜索逻辑
         for (Diary diary : allDiaries) {
             boolean matched = false;
 
-            // 1. 关键词模糊搜索（标题和内容）
-            if (diary.getContent() != null && diary.getContent().contains(keyword)) {
+            // 1. 标题搜索（不区分大小写）
+            if (diary.getTitle() != null && diary.getTitle().toLowerCase().contains(lowerKeyword)) {
                 matched = true;
             }
 
-            // 2. 日期搜索
+            // 2. 内容搜索（不区分大小写）
+            if (diary.getContent() != null && diary.getContent().toLowerCase().contains(lowerKeyword)) {
+                matched = true;
+            }
+
+            // 3. 日期搜索
             if (diary.getCreateTime() != null && diary.getCreateTime().contains(keyword)) {
                 matched = true;
             }
 
-            // 3. 情绪标签搜索
-            if (diary.getEmotionType() != null && diary.getEmotionType().equals(keyword)) {
+            // 4. 情绪标签搜索（不区分大小写）
+            if (diary.getEmotionType() != null && diary.getEmotionType().toLowerCase().contains(lowerKeyword)) {
+                matched = true;
+            }
+
+            // 5. 天气标签搜索（不区分大小写）
+            if (diary.getWeatherTag() != null && diary.getWeatherTag().toLowerCase().contains(lowerKeyword)) {
+                matched = true;
+            }
+
+            // 6. 心情标签搜索（不区分大小写）
+            if (diary.getMoodTag() != null && diary.getMoodTag().toLowerCase().contains(lowerKeyword)) {
+                matched = true;
+            }
+
+            // 7. 活动标签搜索（不区分大小写）
+            if (diary.getActivityTag() != null && diary.getActivityTag().toLowerCase().contains(lowerKeyword)) {
                 matched = true;
             }
 
@@ -219,36 +246,103 @@ public class DiarySearchActivity extends BaseActivity implements View.OnClickLis
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = getLayoutInflater().inflate(R.layout.item_diary_card, parent, false);
+            View view = getLayoutInflater().inflate(R.layout.item_search_result, parent, false);
             return new ViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Diary diary = diaries.get(position);
-            holder.tvContent.setText(diary.getContent());
-            holder.tvDate.setText(diary.getCreateTime().substring(0, 10));
-            holder.tvEmotion.setText(diary.getEmotionType());
 
-            // 设置情感标签颜色
-            switch (diary.getEmotionType()) {
-                case "积极":
-                    holder.tvEmotion.setTextColor(0xFF48BB78);
-                    break;
-                case "消极":
-                    holder.tvEmotion.setTextColor(0xFFF56565);
-                    break;
-                default:
-                    holder.tvEmotion.setTextColor(0xFFECC94B);
-                    break;
+            // 日期
+            String createTime = diary.getCreateTime();
+            if (createTime != null && createTime.length() >= 10) {
+                holder.tvDate.setText(createTime.substring(0, 10));
+            } else {
+                holder.tvDate.setText("");
             }
 
-            // 标记是否在回收站
+            // 回收站标签
             if (diary.isDeleted()) {
                 holder.tvRecycleTag.setVisibility(View.VISIBLE);
             } else {
                 holder.tvRecycleTag.setVisibility(View.GONE);
             }
+
+            // 情感标签
+            String emotionType = diary.getEmotionType();
+            if (emotionType != null) {
+                holder.tvEmotion.setText(emotionType);
+                // 设置情感标签颜色
+                switch (emotionType) {
+                    case "积极":
+                        holder.tvEmotion.setBackgroundColor(0xFF48BB78);
+                        break;
+                    case "消极":
+                        holder.tvEmotion.setBackgroundColor(0xFFF56565);
+                        break;
+                    default:
+                        holder.tvEmotion.setBackgroundColor(0xFFECC94B);
+                        break;
+                }
+            } else {
+                holder.tvEmotion.setText("");
+            }
+
+            // 标题
+            String title = diary.getTitle();
+            if (title != null && !title.isEmpty()) {
+                holder.tvTitle.setText(title);
+                holder.tvTitle.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvTitle.setVisibility(View.GONE);
+            }
+
+            // 内容
+            String content = diary.getContent();
+            if (content != null) {
+                holder.tvContent.setText(content);
+            } else {
+                holder.tvContent.setText("");
+            }
+
+            // 天气标签
+            String weatherTag = diary.getWeatherTag();
+            if (weatherTag != null && !weatherTag.isEmpty()) {
+                holder.tvTagWeather.setText(weatherTag);
+                holder.tvTagWeather.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvTagWeather.setVisibility(View.GONE);
+            }
+
+            // 心情标签
+            String moodTag = diary.getMoodTag();
+            if (moodTag != null && !moodTag.isEmpty()) {
+                holder.tvTagMood.setText(moodTag);
+                holder.tvTagMood.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvTagMood.setVisibility(View.GONE);
+            }
+
+            // 活动标签
+            String activityTag = diary.getActivityTag();
+            if (activityTag != null && !activityTag.isEmpty()) {
+                holder.tvTagActivity.setText(activityTag);
+                holder.tvTagActivity.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvTagActivity.setVisibility(View.GONE);
+            }
+
+            // 点击事件
+            holder.itemView.setOnClickListener(v -> {
+                if (diary.isDeleted()) {
+                    ToastUtil.showShort(DiarySearchActivity.this, "该日记在回收站，请先恢复");
+                } else {
+                    Intent intent = new Intent(DiarySearchActivity.this, DiaryDetailActivity.class);
+                    intent.putExtra("diaryId", diary.getDiaryId());
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override
@@ -257,46 +351,25 @@ public class DiarySearchActivity extends BaseActivity implements View.OnClickLis
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView tvContent;
             TextView tvDate;
-            TextView tvEmotion;
             TextView tvRecycleTag;
+            TextView tvEmotion;
+            TextView tvTitle;
+            TextView tvContent;
+            TextView tvTagWeather;
+            TextView tvTagMood;
+            TextView tvTagActivity;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                tvContent = itemView.findViewById(R.id.tv_content);
                 tvDate = itemView.findViewById(R.id.tv_date);
+                tvRecycleTag = itemView.findViewById(R.id.tv_recycle_tag);
                 tvEmotion = itemView.findViewById(R.id.tv_emotion);
-
-                // 添加回收站标签
-                tvRecycleTag = new TextView(DiarySearchActivity.this);
-                tvRecycleTag.setText("回收站");
-                tvRecycleTag.setTextSize(12);
-                tvRecycleTag.setTextColor(0xFFF56565);
-                tvRecycleTag.setBackgroundColor(0xFFFEF2F2);
-                tvRecycleTag.setPadding(8, 4, 8, 4);
-                tvRecycleTag.setGravity(View.TEXT_ALIGNMENT_CENTER);
-
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                params.setMarginStart(8);
-                tvRecycleTag.setLayoutParams(params);
-
-                // 获取CardView内部的LinearLayout并添加标签
-                LinearLayout linearLayout = itemView.findViewById(android.R.id.content);
-                if (linearLayout == null) {
-                    if (itemView instanceof androidx.cardview.widget.CardView) {
-                        androidx.cardview.widget.CardView cardView = (androidx.cardview.widget.CardView) itemView;
-                        if (cardView.getChildCount() > 0 && cardView.getChildAt(0) instanceof LinearLayout) {
-                            linearLayout = (LinearLayout) cardView.getChildAt(0);
-                        }
-                    }
-                }
-                if (linearLayout != null) {
-                    linearLayout.addView(tvRecycleTag);
-                }
+                tvTitle = itemView.findViewById(R.id.tv_title);
+                tvContent = itemView.findViewById(R.id.tv_content);
+                tvTagWeather = itemView.findViewById(R.id.tv_tag_weather);
+                tvTagMood = itemView.findViewById(R.id.tv_tag_mood);
+                tvTagActivity = itemView.findViewById(R.id.tv_tag_activity);
             }
         }
     }

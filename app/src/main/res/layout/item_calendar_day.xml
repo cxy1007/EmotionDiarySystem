@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_calendar_item"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tv_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="16sp"
+        android:textColor="#2D3748"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tv_lunar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="初一"
+        android:textSize="10sp"
+        android:textColor="#9CA3AF"
+        android:layout_marginTop="2dp"/>
+
+</LinearLayout>

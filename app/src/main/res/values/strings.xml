@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">EmotionDiarySystem</string>
+    <string name="ai_assistant_title">AI 心情助手</string>
+    <string name="ai_send">发送</string>
+    <string name="ai_copy">复制文本</string>
+    <string name="ai_copied">已复制到剪贴板</string>
+    <string name="ai_no_diary_today">还没写今日日记哦，来记录一下吧～</string>
 </resources>
